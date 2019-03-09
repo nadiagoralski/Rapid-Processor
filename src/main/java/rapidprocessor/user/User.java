@@ -1,6 +1,7 @@
 package rapidprocessor.user;
 
 import org.apache.commons.lang3.StringUtils;
+import rapidprocessor.util.Constants;
 
 import java.math.BigDecimal;
 
@@ -137,7 +138,7 @@ public class User {
     @Override
     public String toString() {
         // Pad the string values with spaces and numeric values with 0's
-        String username = StringUtils.rightPad(this.username, 15);
+        String username = StringUtils.rightPad(this.username, Constants.MAX_USERNAME_LENGTH);
         String userType = StringUtils.rightPad(this.userType.code, 2);
         String userBalance = StringUtils.leftPad(this.userBalance.setScale(2, BigDecimal.ROUND_HALF_UP).toString(), 9, "0");
 

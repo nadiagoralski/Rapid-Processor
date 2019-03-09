@@ -1,11 +1,6 @@
 package rapidprocessor.transaction;
 
-import rapidprocessor.ticketBatch.TicketBatch;
-import rapidprocessor.user.User;
-
-import java.math.BigDecimal;
-
-public class Transaction {
+public interface Transaction {
     /**
      * Valid transaction types
      * 00 - End of Session
@@ -16,7 +11,7 @@ public class Transaction {
      * 05 - Refund
      * 06 - Add Credit
      */
-    public enum TransactionType {
+    enum TransactionType {
         END_OF_SESSION("00"),
         CREATE("01"),
         DELETE("02"),
@@ -25,41 +20,33 @@ public class Transaction {
         REFUND("05"),
         ADD_CREDIT("06");
 
-        String code; // transaction code
+        private String code; // transaction code
 
         /**
          * Default constructor for TransactionType enum
+         *
          * @param code
          */
         TransactionType(String code) {
             this.code = code;
         }
+
+        public String getCode() {
+            return code;
+        }
     }
 
     /**
-     * The transaction type
+     * Getter for transaction type
+     * @return the transaction string
      */
-    private TransactionType transactionType;
-    /**
-     * The transaction string to be written
-     */
-    private String transactionString;
+    TransactionType getTransactionType();
 
     /**
      * Getter for transaction string
      * @return the transaction string
      */
-    public String getTransactionString() {
-        return transactionString;
-    }
-
-    /**
-     * Setter for transaction string
-     * @param transactionString
-     */
-    public void setTransactionString(String transactionString) {
-        this.transactionString = transactionString;
-    }
+    String getTransactionString();
 
 
 }
