@@ -34,6 +34,31 @@ public interface Transaction {
         public String getCode() {
             return code;
         }
+        
+        /**
+         * Converts string to TransactionType
+         * 
+         * @param TransactionType
+         * @return matching TransactionType object
+         */
+        public static TransactionType fromString(String transactionType) {
+            if (END_OF_SESSION.code.equals(transactionType)) {
+                return END_OF_SESSION;
+            } else if (CREATE.code.equals(transactionType)) {
+                return CREATE;
+            } else if (DELETE.code.equals(transactionType)) {
+                return DELETE;
+            } else if (SELL.code.equals(transactionType)) {
+                return SELL;
+            } else if (BUY.code.equals(transactionType)) {
+                return BUY;
+            } else if (REFUND.code.equals(transactionType)) {
+                return REFUND;
+            } else if (ADD_CREDIT.code.equals(transactionType)) {
+                return ADD_CREDIT;
+            }
+            return null;
+        }
     }
 
     /**
