@@ -10,14 +10,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
-import rapidprocessor.transaction.Transaction;
+import rapidprocessor.transaction.UserTransaction;
 import rapidprocessor.user.User;
 
 
 /**
- * users
+ * UserUtil class
+ * Handles user file processing
  */
 public class UsersUtil {
+	/*
+	 * Lists of users to write
+	 */
+	List<User> usersToWrite = new ArrayList<User>();
+	List<String> deletedUsers = new ArrayList<String>();
+
 	/**
 	 * Default constructor for UserUtil
 	 */
@@ -28,7 +35,7 @@ public class UsersUtil {
 	 * used to update ticket database
 	 */
 	public void updateUserDB(User[] users) {
-
+		//TODO: Implement
 	}
 
 	public List<User> getUserData() {
@@ -47,7 +54,10 @@ public class UsersUtil {
 			BufferedReader br = new BufferedReader(fr);
 
 			while ((line = br.readLine()) != null) {
-				users.add(new User(line));
+				String username = StringUtils.trimToEmpty(line.substring(0, Constants.MAX_USERNAME_LENGTH));
+				String userType = StringUtils.trimToEmpty(line.substring(16, 18));
+				BigDecimal userBalance = new BigDecimal(line.substring(19, line.length()).trim());
+				users.add(new User(username, userType, userBalance));
 			}
 
 			br.close();
@@ -61,49 +71,46 @@ public class UsersUtil {
 		return users;
 	}
 
-	private List<User> deleteUser(List<User> users, Transaction transaction) {
-		
-		for (User user : users) {
-			if (user.getUsername().equals(transaction.getUsername())) {
-				
-				users.remove(user);
-				break;
-			}
-		}
-		return users;
-	}
-	
-	private List<User> updateUserCredit(List<User> users, Transaction transaction) {
-		
-		for (User user : users) {
-			if ( user.getUsername().equals(transaction.getUsername() )) {
-				
-				user.setUserBalance( user.getUserBalance() + transaction.getCreditBalance() );
-				break;
-			}
-		}
-		return users;
-	}
+
 	/**
 	 * 
 	 * Simple function to just update the User list from the
 	 * daily transaction file
 	 * then returns new updated list
 	 */
-	public List<User> updateUserslList(List<User> users, List<Transaction> transactions) {
+	public List<User> updateUserslList(List<User> users, List<UserTransaction> transactions) {
 
 
 		// update users
-		for (Transaction transaction : transactions) {
-			if ( transaction.getTransactionType().equals("01") ) {
-				User user = new User(transaction.getUsername(), transaction.getUserType(), transaction.getUserBalance());
-				users.add(user);
+		//TODO: Clean this up
+
+		// Find all deleted users
+		for (UserTransaction transaction : transactions) {
+			if (transaction.getTransactionType().equals("02") ) {
+				// if delete
+				for (User user : users) {
+					if (user.getUsername().equals(transaction.getUsername())) {
+						// Add username to list of deleted users
+						deletedUsers.add(user.getUsername());
+					}
+				}
 			}
-			else if ( transaction.getTransactionType().equals("02") ) { // if delete
-				users = deleteUser(users, transaction);
-			}
-			else if ( transaction.getTransactionType().equals("06") ) {
-				users = updateUserCredit(users, transaction);
+		}
+
+		for (UserTransaction transaction : transactions) {
+			// Only update if the user was not deleted
+			if (!deletedUsers.contains(transaction.getUsername())) {
+				if (transaction.getTransactionType().equals("01")) {
+					usersToWrite.add(new User(transaction.getUsername(), transaction.getUserType(), transaction.getUserBalance()));
+				} else if (transaction.getTransactionType().equals("06")) {
+					for (User user : users) {
+						if (user.getUsername().equals(transaction.getUsername())) {
+
+							user.setUserBalance(user.getUserBalance() + transaction.getCreditBalance());
+							usersToWrite.add(user);
+						}
+					}
+				}
 			}
 		}
 		
@@ -118,19 +125,22 @@ public class UsersUtil {
 	public void updateUserDatabase(List<User> users) {
 		System.out.println("updating to file");
 
-		String fileName = "./src/main/java/rapidprocessor/util/tickets.db";
-		String data = users.toString();
-		File file = new File(fileName);
+		String fileName = "file/user.db";
+		StringBuilder data = new StringBuilder();
 
-		for (TicketBatch user : users) {
-			data += user.toString() + "\n";
+		// Get and place all file contents in memory
+		ClassLoader classLoader = getClass().getClassLoader();
+		File file = new File(classLoader.getResource(fileName).getFile());
+
+		for (User user : usersToWrite) {
+			data.append(user.toString()).append("\n");
 		}
 
 		try {
 			FileWriter fw = new FileWriter(file);
 			BufferedWriter bw = new BufferedWriter(fw);
 
-			bw.write(data);
+			bw.write(data.toString());
 			bw.close();
 
 		} catch (Exception e) {

@@ -1,6 +1,10 @@
 package rapidprocessor.transaction.parser;
 
+import rapidprocessor.ticketBatch.TicketBatch;
 import rapidprocessor.transaction.Transaction;
+import rapidprocessor.user.User;
+
+import java.util.List;
 
 public interface TransactionParser {
 
@@ -9,7 +13,7 @@ public interface TransactionParser {
      * @param fileLine
      * @return
      */
-    public Transaction parse(String fileLine);
+    public Transaction parse(String fileLine, List<TicketBatch> availableTickets, List<User> availableUsers);
 
 
 }
