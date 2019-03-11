@@ -1,11 +1,10 @@
-package rapidprocessor.util;
-
 import java.util.List;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 
 import rapidprocessor.ticketBatch.TicketBatch;
 import rapidprocessor.transaction.Transaction;
+import rapidprocessor.util.TicketUtil;
 
 /**
  * UserTest
@@ -19,7 +18,7 @@ public class UtilTest {
 
 		TicketBatch newTicket = new TicketBatch("Test2              ", "STDuser      ", 99, new BigDecimal(11.00));
 		List<Transaction> transactions = new ArrayList<Transaction>();
-		transactions.add("03 New Event           new           002 001.00")
+		transactions.add("03 New Event           new           002 001.00");
 
 		// User[] users = u.getUserData();
 		List<TicketBatch> tickets = t.getTicketBatchData();
