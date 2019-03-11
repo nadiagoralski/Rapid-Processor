@@ -2,6 +2,10 @@ package rapidprocessor.transaction;
 
 import rapidprocessor.util.Constants;
 
+/**
+ * Transaction
+ * Interface for transaction types
+ */
 public interface Transaction {
     /**
      * Valid transaction types

@@ -23,6 +23,11 @@ public class UsersUtil {
 	 * Lists of users to write
 	 */
 	List<User> usersToWrite = new ArrayList<User>();
+
+	/*
+	 * Lists of deleted users
+	 * to ignore when writing new users file
+	 */
 	List<String> deletedUsers = new ArrayList<String>();
 
 	/**

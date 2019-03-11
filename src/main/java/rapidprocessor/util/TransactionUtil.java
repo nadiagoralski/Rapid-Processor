@@ -21,10 +21,19 @@ import java.util.List;
  * Handles transaction file processing
  */
 public class TransactionUtil {
+    /**
+     * Available Tickets
+     */
     List<TicketBatch> availableTickets = new ArrayList<TicketBatch>();
+    /**
+     * Available Users
+     */
     List<User> availableUsers = new ArrayList<User>();
 
 
+    /**
+     * Transaction Type lists
+     */
     List<RefundTransaction> refundTransactions = new ArrayList<RefundTransaction>();
 	List<TicketTransaction> ticketTransactions = new ArrayList<TicketTransaction>();
 	List<UserTransaction> userTransactions = new ArrayList<UserTransaction>();
@@ -40,6 +49,11 @@ public class TransactionUtil {
         userTransactions = new ArrayList<UserTransaction>();
 	}
 
+    /**
+     * Reads in Transaction file to initialize transaction util global variables and
+     * @param ticketBatches
+     * @param users
+     */
 	public void init(List<TicketBatch> ticketBatches, List<User> users) {
 	    this.availableTickets = ticketBatches;
 	    this.availableUsers = users;
@@ -166,14 +180,26 @@ public class TransactionUtil {
 		return transactions;
 	}
 
+    /**
+     * Return list of Refund Transactions
+     * @return refundTransactions
+     */
 	public List<RefundTransaction> getRefundTransactions() {
 		return refundTransactions;
 	}
 
+    /**
+     * Return list of Ticket Transactions
+     * @return ticketTransactions
+     */
 	public List<TicketTransaction> getTicketTransactions() {
 		return ticketTransactions;
 	}
 
+    /**
+     * Return list of User Transactions
+     * @return userTransactions
+     */
 	public List<UserTransaction> getUserTransactions() {
 		return userTransactions;
 	}

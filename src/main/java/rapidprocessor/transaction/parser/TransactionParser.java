@@ -6,6 +6,10 @@ import rapidprocessor.user.User;
 
 import java.util.List;
 
+/**
+ * TransactionParser
+ * Interface for Transaction parsers
+ */
 public interface TransactionParser {
 
     /**

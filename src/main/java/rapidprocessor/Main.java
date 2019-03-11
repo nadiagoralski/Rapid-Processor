@@ -10,6 +10,10 @@ import rapidprocessor.util.UsersUtil;
 
 import java.util.List;
 
+/**
+ * Main
+ * Main processing class
+ */
 public class Main {
     // Global utils
     static TransactionUtil transactionUtil = null;
@@ -24,6 +28,7 @@ public class Main {
         // Read in data from ticket, transaction, and user files
         ticketUtil = new TicketUtil();
         transactionUtil = new TransactionUtil();
+        transactionUtil.init(tickets, users);
         usersUtil = new UsersUtil();
 
         try {
