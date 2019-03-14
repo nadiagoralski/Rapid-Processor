@@ -40,7 +40,8 @@ public class UsersUtil {
 	public List<User> getUserData() {
 		System.out.println("reading file...");
 
-		String fileName = "file/users.db", line;
+		String fileName = "file/users.db";
+		String line;
 
 		// places all file contents in memory
 		ClassLoader classLoader = getClass().getClassLoader();

@@ -18,6 +18,7 @@ import java.util.List;
  * Handles ticket file processing
  */
 public class TicketUtil {
+	RapidProperties properties = new RapidProperties();
 
     /*
      * Lists of tickets to write
@@ -37,7 +38,8 @@ public class TicketUtil {
 	public List<TicketBatch> getTicketBatchData() {
 		System.out.println("reading file...");
 
-		String fileName = "file/tickets.db", line;
+		String fileName = properties.getProperty("available_tickets_filepath");
+		String line;
 
 		// Get and place all file contents in memory
 		ClassLoader classLoader = getClass().getClassLoader();
@@ -112,7 +114,8 @@ public class TicketUtil {
 	public void updateTicketBatchDatabase() {
 		System.out.println("updating to file");
 
-		String fileName = "file/tickets.db";
+
+		String fileName = properties.getProperty("available_tickets_filepath");
 		StringBuilder data = new StringBuilder();
 
 		// Get and place all file contents in memory
