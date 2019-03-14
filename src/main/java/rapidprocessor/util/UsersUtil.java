@@ -9,6 +9,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import rapidprocessor.transaction.Transaction;
 import rapidprocessor.user.User;
 
@@ -17,28 +18,26 @@ import rapidprocessor.user.User;
  * users
  */
 public class UsersUtil {
+	
+	private List<User> ticketsToWrite = new ArrayList<User>();
+
 	/**
-	 * Constructor
+	 * Default constructor for UserUtil
 	 */
 	public UsersUtil() {
-		System.out.println("built");
 	}
 
-	/**
-	 * used to update ticket database
-	 */
-	public void updateUserDB(User[] users) {
 
-	}
 
 	public List<User> getUserData() {
 
 		System.out.println("reading file...");
 
-		String fileName = "./src/main/java/rapidprocessor/util/users.db", line;
+		String fileName = "file/users.db", line;
 
 		// places all file contents in memory
-		File file = new File(fileName);
+		ClassLoader classLoader = getClass().getClassLoader();
+		File file = new File(classLoader.getResource(fileName).getFile());
 		List<User> users = new ArrayList<User>();
 
 		try {
@@ -46,13 +45,7 @@ public class UsersUtil {
 			BufferedReader br = new BufferedReader(fr);
 
 			while ((line = br.readLine()) != null) {
-
-				String userName = line.substring(0, 15);
-				String userTypeCode = line.substring(16, 18);
-				BigDecimal userBalance = new BigDecimal(line.substring(19, line.length()).trim());
-
-				User user = new User(userName, userTypeCode, userBalance);
-				users.add(user);
+				users.add(new User(line));
 			}
 
 			br.close();
@@ -63,15 +56,13 @@ public class UsersUtil {
 			System.out.println(e.toString());
 		}
 
-		// System.out.println(users);
-
 		return users;
 	}
 
 	private List<User> deleteUser(List<User> users, Transaction transaction) {
 		
 		for (User user : users) {
-			if ( user.getUsername().equals(transaction.getUsername() )) {
+			if (user.getUsername().equals(transaction.getUsername())) {
 				
 				users.remove(user);
 				break;
@@ -129,7 +120,7 @@ public class UsersUtil {
 		String data = users.toString();
 		File file = new File(fileName);
 
-		for (TicketBatch user : users) {
+		for (User user : users) {
 			data += user.toString() + "\n";
 		}
 

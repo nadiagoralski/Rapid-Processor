@@ -1,3 +1,12 @@
+.classpath
+.project
+
 .idea/
+<<<<<<< HEAD
 .vs/
 .vscode/
+=======
+.settings/
+.vs/
+.vscode/
+>>>>>>> 716998876f9028fb4fb7058a57e96223009b083b

@@ -80,6 +80,16 @@ public class User {
     }
 
     /**
+     * User constructor from file line
+     * @param fileLine
+     */
+    public User(String fileLine) {
+        this.username = StringUtils.trimToEmpty(fileLine.substring(0, Constants.MAX_USERNAME_LENGTH));
+        this.userType = UserType.fromString(StringUtils.trimToEmpty(fileLine.substring(16, 18)));
+        this.userBalance = new BigDecimal(fileLine.substring(19, fileLine.length()).trim());
+    }
+
+    /**
      * Getter for username
      * @return the username
      */

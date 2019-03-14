@@ -1,5 +1,7 @@
 package rapidprocessor.transaction;
 
+import rapidprocessor.util.Constants;
+
 public interface Transaction {
     /**
      * Valid transaction types
@@ -12,36 +14,42 @@ public interface Transaction {
      * 06 - Add Credit
      */
     enum TransactionType {
-        END_OF_SESSION("00"),
-        CREATE("01"),
-        DELETE("02"),
-        SELL("03"),
-        BUY("04"),
-        REFUND("05"),
-        ADD_CREDIT("06");
+        END_OF_SESSION("00", Constants.TRANSACTION_USER),
+        CREATE("01", Constants.TRANSACTION_USER),
+        DELETE("02", Constants.TRANSACTION_USER),
+        SELL("03", Constants.TRANSACTION_TICKET),
+        BUY("04", Constants.TRANSACTION_TICKET),
+        REFUND("05", Constants.TRANSACTION_REFUND),
+        ADD_CREDIT("06", Constants.TRANSACTION_USER);
 
         private String code; // transaction code
+        private String parseType;
 
         /**
          * Default constructor for TransactionType enum
          *
          * @param code
          */
-        TransactionType(String code) {
+        TransactionType(String code, String parseType) {
             this.code = code;
+            this.parseType = parseType;
         }
 
         public String getCode() {
             return code;
         }
-        
+
+        public String getParseType() {
+            return parseType;
+        }
+
         /**
          * Converts string to TransactionType
          * 
-         * @param TransactionType
+         * @param transactionType
          * @return matching TransactionType object
          */
-        public static TransactionType fromString(String transactionType) {
+        public static TransactionType fromCode(String transactionType) {
             if (END_OF_SESSION.code.equals(transactionType)) {
                 return END_OF_SESSION;
             } else if (CREATE.code.equals(transactionType)) {

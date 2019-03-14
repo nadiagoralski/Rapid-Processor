@@ -6,7 +6,7 @@ import rapidprocessor.util.Constants;
 
 import java.math.BigDecimal;
 
-public class Refund implements Transaction {
+public class RefundTransaction implements Transaction {
     private String transactionString;
     private TransactionType transactionType =  TransactionType.REFUND;
 
@@ -16,7 +16,7 @@ public class Refund implements Transaction {
      * @param seller
      * @param amount
      */
-    public Refund(User buyer, User seller, BigDecimal amount) {
+    public RefundTransaction(User buyer, User seller, BigDecimal amount) {
         transactionString = transactionType.getCode() + " " +
                 StringUtils.rightPad(buyer.getUsername(), Constants.MAX_USERNAME_LENGTH) + " " +
                 StringUtils.rightPad(seller.getUsername(), Constants.MAX_USERNAME_LENGTH) + " " +

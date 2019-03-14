@@ -1,6 +1,7 @@
 package rapidprocessor.ticketBatch;
 
 import org.apache.commons.lang3.StringUtils;
+import rapidprocessor.util.Constants;
 
 import java.math.BigDecimal;
 
@@ -28,6 +29,13 @@ public class TicketBatch {
         this.sellerName = sellerName;
         this.quantityAvailable = quantityAvailable;
         this.price = price;
+    }
+
+    public TicketBatch(String fileLine) {
+        this.eventTitle = StringUtils.trimToEmpty(fileLine.substring(0, Constants.MAX_EVENT_TITLE_LENGTH - 1));
+        this.sellerName = StringUtils.trimToEmpty(fileLine.substring(25, 33));
+        this.quantityAvailable = Integer.parseInt(fileLine.substring(34, 37));
+        this.price = new BigDecimal(fileLine.substring(38, fileLine.length()).trim());
     }
 
     /**
