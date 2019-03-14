@@ -7,6 +7,10 @@ import rapidprocessor.util.Constants;
 import java.math.BigDecimal;
 
 public class UserTransaction implements Transaction {
+    private String usernameVal;
+    private String userTypeVal;
+    private BigDecimal userBalanceVal;
+
     private String transactionString;
     private Transaction.TransactionType transactionType = null;
 
@@ -17,10 +21,14 @@ public class UserTransaction implements Transaction {
     public UserTransaction(Transaction.TransactionType transactionType, User user) {
         this.transactionType = transactionType;
         // Pad the string values with spaces and numeric values with 0's
+        this.usernameVal = StringUtils.rightPad(user.getUsername(), Constants.MAX_USERNAME_LENGTH);
+        this.userTypeVal = user.getUserType().getCode();
+        this.userBalanceVal = user.getUserBalance().setScale(2, BigDecimal.ROUND_HALF_UP);
+
         this.transactionString = transactionType.getCode() + " " +
-                StringUtils.rightPad(user.getUsername(), Constants.MAX_USERNAME_LENGTH) + " " +
-                user.getUserType() + " " +
-                StringUtils.leftPad(user.getUserBalance().setScale(2, BigDecimal.ROUND_HALF_UP).toString(), 9, "0");
+            this.usernameVal + " " +
+            this.userTypeVal + " " +
+            StringUtils.leftPad(this.userBalanceVal.toString(), 9, "0");
     }
 
     /**
@@ -37,5 +45,29 @@ public class UserTransaction implements Transaction {
      */
     public String getTransactionString() {
         return transactionString;
+    }
+
+    /**
+     * Get username string value
+     * @return the parsed username string
+     */
+    public String getUsernameVal() {
+        return usernameVal;
+    }
+
+    /**
+     * Get user type string value
+     * @return the parsed user type as a string
+     */
+    public String getUserTypeVal() {
+        return userTypeVal;
+    }
+
+    /**
+     * Get user balance
+     * @return the parsed user balance
+     */
+    public BigDecimal getUserBalanceVal() {
+        return userBalanceVal;
     }
 }

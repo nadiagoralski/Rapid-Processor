@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import rapidprocessor.transaction.Transaction;
 import rapidprocessor.transaction.UserTransaction;
 import rapidprocessor.user.User;
 
@@ -36,22 +37,14 @@ public class UsersUtil {
 	public UsersUtil() {
 	}
 
-	/**
-	 * used to update ticket database
-	 */
-	public void updateUserDB(User[] users) {
-		//TODO: Implement
-	}
-
 	public List<User> getUserData() {
-
 		System.out.println("reading file...");
 
 		String fileName = "file/users.db", line;
 
 		// places all file contents in memory
 		ClassLoader classLoader = getClass().getClassLoader();
-		File file = new File(classLoader.getResource(fileName).getFile();
+		File file = new File(classLoader.getResource(fileName).getFile());
 		List<User> users = new ArrayList<User>();
 
 		try {
@@ -83,35 +76,36 @@ public class UsersUtil {
 	 * daily transaction file
 	 * then returns new updated list
 	 */
-	public List<User> updateUserslList(List<User> users, List<UserTransaction> transactions) {
+	public List<User> updateUsersList(List<User> users, List<UserTransaction> transactions) {
 
 
 		// update users
-		//TODO: Clean this up
-
 		// Find all deleted users
 		for (UserTransaction transaction : transactions) {
-			if (transaction.getTransactionType().equals("02") ) {
-				// if delete
-				for (User user : users) {
-					if (user.getUsername().equals(transaction.getUsername())) {
-						// Add username to list of deleted users
-						deletedUsers.add(user.getUsername());
-					}
+			if (Transaction.TransactionType.DELETE.equals(transaction.getTransactionType())) {
+				String username = transaction.getUsernameVal();
+				User user = users.stream().filter(userObj -> username.equals(userObj.getUsername())).findFirst().orElse(null);
+
+				if (user != null) {
+					// if user found, add to deleted user lis
+					deletedUsers.add(user.getUsername());
 				}
 			}
 		}
 
 		for (UserTransaction transaction : transactions) {
+			String username = transaction.getUsernameVal();
 			// Only update if the user was not deleted
-			if (!deletedUsers.contains(transaction.getUsername())) {
-				if (transaction.getTransactionType().equals("01")) {
-					usersToWrite.add(new User(transaction.getUsername(), transaction.getUserType(), transaction.getUserBalance()));
-				} else if (transaction.getTransactionType().equals("06")) {
-					for (User user : users) {
-						if (user.getUsername().equals(transaction.getUsername())) {
 
-							user.setUserBalance(user.getUserBalance() + transaction.getCreditBalance());
+			if (!deletedUsers.contains(username)) {
+				if (Transaction.TransactionType.CREATE.equals(transaction.getTransactionType())) {
+					// Write new users to file
+					usersToWrite.add(new User(username, transaction.getUserTypeVal(), transaction.getUserBalanceVal()));
+				} else if (Transaction.TransactionType.ADD_CREDIT.equals(transaction.getTransactionType())) {
+					// Update existing users balance
+					for (User user : users) {
+						if (user.getUsername().equals(username)) {
+							user.setUserBalance(user.getUserBalance().add(transaction.getUserBalanceVal()));
 							usersToWrite.add(user);
 						}
 					}
@@ -125,9 +119,11 @@ public class UsersUtil {
 
 
 	/**
-	 * Overrites the ticket file with the ticketBatch list
+	 * User file writer
+	 *
+	 * Writes out all the updated users to a file.
 	 */
-	public void updateUserDatabase(List<User> users) {
+	public void updateUserDatabase() {
 		System.out.println("updating to file");
 
 		String fileName = "file/user.db";

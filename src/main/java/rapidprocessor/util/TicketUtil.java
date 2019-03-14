@@ -108,9 +108,8 @@ public class TicketUtil {
      * Ticket Batch file writer
      *
      * Writes out all the updated tickets to a file.
-     * @param ticketBatch
      */
-	public void updateTicketBatchDatabase(List<TicketBatch> ticketBatch) {
+	public void updateTicketBatchDatabase() {
 		System.out.println("updating to file");
 
 		String fileName = "file/tickets.db";
