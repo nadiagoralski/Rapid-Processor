@@ -39,13 +39,12 @@ public class Main {
 
             // Process Ticket Transactions
             ticketUtil.updateTicketBatch(tickets, transactionUtil.getTicketTransactions());
-            ticketUtil.updateTicketBatchDatabase(tickets);
+            ticketUtil.updateTicketBatchDatabase();
 
+            // Process User Transactions
+            usersUtil.updateUsersList(users, transactionUtil.getUserTransactions());
+            usersUtil.updateUserDatabase();
 
-
-            for (UserTransaction userTransaction : transactionUtil.getUserTransactions()) {
-                // TODO: implement
-            }
 
         } catch (Exception e) {
             // TODO: Implement Logging class for messages

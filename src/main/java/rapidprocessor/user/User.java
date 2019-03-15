@@ -30,6 +30,7 @@ public class User {
 
         /**
          * Default constructor for UserType enum
+         *
          * @param code
          */
         UserType(String code) {
@@ -38,6 +39,7 @@ public class User {
 
         /**
          * Converts string to UserType
+         *
          * @param userType
          * @return matching UserType object
          */
@@ -48,10 +50,18 @@ public class User {
                 return BUY_STANDARD;
             } else if (FULL_STANDARD.code.equals(userType)) {
                 return FULL_STANDARD;
-            } else  if (SELL_STANDARD.code.equals(userType)) {
+            } else if (SELL_STANDARD.code.equals(userType)) {
                 return SELL_STANDARD;
             }
             return null;
+        }
+
+        /**
+         * Get code value
+         * @return the code value as a string
+         */
+        public String getCode() {
+            return code;
         }
     }
 
