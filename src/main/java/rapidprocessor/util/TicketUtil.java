@@ -110,7 +110,7 @@ public class TicketUtil {
      * Writes out all the updated tickets to a file.
      * @param ticketBatch
      */
-	public void updateTicketBatchDatabase(List<TicketBatch> ticketBatch) {
+	public void updateTicketBatchDatabase() { // removed param since it's now using ticketsToWrite
 		System.out.println("updating to file");
 
 		String fileName = "file/tickets.db";
