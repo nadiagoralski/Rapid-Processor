@@ -1,5 +1,6 @@
 package rapidprocessor.util;
 
+import org.apache.commons.lang3.StringUtils;
 import rapidprocessor.ticketBatch.TicketBatch;
 import rapidprocessor.transaction.TicketTransaction;
 import rapidprocessor.transaction.Transaction;
@@ -9,11 +10,12 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 /**
  * TicketUtil
- * Processes
+ * Handles ticket file processing
  */
 public class TicketUtil {
 
@@ -47,7 +49,11 @@ public class TicketUtil {
 			BufferedReader br = new BufferedReader(fr);
 
 			while ((line = br.readLine()) != null) {
-				ticketBatch.add(new TicketBatch(line));
+				String eventTitle = StringUtils.trimToEmpty(line.substring(0, Constants.MAX_EVENT_TITLE_LENGTH - 1));
+				String sellerName = StringUtils.trimToEmpty(line.substring(25, 33));
+				Integer quantityAvailable = Integer.parseInt(line.substring(34, 37));
+				BigDecimal price = new BigDecimal(line.substring(38, line.length()).trim());
+				ticketBatch.add(new TicketBatch(eventTitle, sellerName, quantityAvailable, price));
 			}
 
 			br.close();

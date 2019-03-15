@@ -1,5 +1,6 @@
 package rapidprocessor.util;
 
+import rapidprocessor.ticketBatch.TicketBatch;
 import rapidprocessor.transaction.RefundTransaction;
 import rapidprocessor.transaction.TicketTransaction;
 import rapidprocessor.transaction.Transaction;
@@ -15,31 +16,59 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.text.html.HTMLEditorKit.Parser;
-
 /**
  * TransactionUtil Class
+ * Handles transaction file processing
  */
 public class TransactionUtil {
+    /**
+     * Available Tickets
+     */
+    List<TicketBatch> availableTickets = new ArrayList<TicketBatch>();
+    /**
+     * Available Users
+     */
+    List<User> availableUsers = new ArrayList<User>();
 
-	List<RefundTransaction> refundTransactions = new ArrayList<RefundTransaction>();
+
+    /**
+     * Transaction Type lists
+     */
+    List<RefundTransaction> refundTransactions = new ArrayList<RefundTransaction>();
 	List<TicketTransaction> ticketTransactions = new ArrayList<TicketTransaction>();
 	List<UserTransaction> userTransactions = new ArrayList<UserTransaction>();
 	/**
 	 * Default constructor for TransactionUtil
+     * Initialize global variables
 	 */
 	public TransactionUtil() {
-		List<Transaction> transactions = buildTransactionList();
-		for (Transaction transaction : transactions) {
-			if (Constants.TRANSACTION_REFUND.equals(transaction.getTransactionType().getParseType())) {
-				refundTransactions.add((RefundTransaction) transaction);
-			} else if (Constants.TRANSACTION_TICKET.equals(transaction.getTransactionType().getParseType())) {
-				ticketTransactions.add((TicketTransaction) transaction);
-			} else if (Constants.TRANSACTION_USER.equals(transaction.getTransactionType().getParseType())) {
-				userTransactions.add((UserTransaction) transaction);
-			}
-		}
+        availableTickets = new ArrayList<TicketBatch>();
+        availableUsers = new ArrayList<User>();
+        refundTransactions = new ArrayList<RefundTransaction>();
+        ticketTransactions = new ArrayList<TicketTransaction>();
+        userTransactions = new ArrayList<UserTransaction>();
 	}
+
+    /**
+     * Reads in Transaction file to initialize transaction util global variables and
+     * @param ticketBatches
+     * @param users
+     */
+	public void init(List<TicketBatch> ticketBatches, List<User> users) {
+	    this.availableTickets = ticketBatches;
+	    this.availableUsers = users;
+
+        List<Transaction> transactions = buildTransactionList();
+        for (Transaction transaction : transactions) {
+            if (Constants.TRANSACTION_REFUND.equals(transaction.getTransactionType().getParseType())) {
+                refundTransactions.add((RefundTransaction) transaction);
+            } else if (Constants.TRANSACTION_TICKET.equals(transaction.getTransactionType().getParseType())) {
+                ticketTransactions.add((TicketTransaction) transaction);
+            } else if (Constants.TRANSACTION_USER.equals(transaction.getTransactionType().getParseType())) {
+                userTransactions.add((UserTransaction) transaction);
+            }
+        }
+    }
 
 	/**
 	 * Get correct parser based on transaction type
@@ -124,7 +153,7 @@ public class TransactionUtil {
 
 
 				if (transactionParser != null) {
-					transactions.add(transactionParser.parse(line));
+					transactions.add(transactionParser.parse(line, availableTickets, availableUsers));
 				}
 			}
 
@@ -151,14 +180,26 @@ public class TransactionUtil {
 		return transactions;
 	}
 
+    /**
+     * Return list of Refund Transactions
+     * @return refundTransactions
+     */
 	public List<RefundTransaction> getRefundTransactions() {
 		return refundTransactions;
 	}
 
+    /**
+     * Return list of Ticket Transactions
+     * @return ticketTransactions
+     */
 	public List<TicketTransaction> getTicketTransactions() {
 		return ticketTransactions;
 	}
 
+    /**
+     * Return list of User Transactions
+     * @return userTransactions
+     */
 	public List<UserTransaction> getUserTransactions() {
 		return userTransactions;
 	}

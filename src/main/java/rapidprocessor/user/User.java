@@ -5,6 +5,13 @@ import rapidprocessor.util.Constants;
 
 import java.math.BigDecimal;
 
+/**
+ * User
+ * Defines a user object with accessors to
+ * - username
+ * - userType
+ * - userBalance
+ */
 public class User {
     /**
      * Valid user types
@@ -48,15 +55,15 @@ public class User {
         }
     }
 
-    /**
+    /*
      * User's username
      */
     private String username;
-    /**
+    /*
      * Type of user
      */
     private UserType userType;
-    /**
+    /*
      * Balance of user's account
      */
     private BigDecimal userBalance;
@@ -77,16 +84,6 @@ public class User {
         this.username = username;
         this.userType = UserType.fromString(userType);
         this.userBalance = userBalance;
-    }
-
-    /**
-     * User constructor from file line
-     * @param fileLine
-     */
-    public User(String fileLine) {
-        this.username = StringUtils.trimToEmpty(fileLine.substring(0, Constants.MAX_USERNAME_LENGTH));
-        this.userType = UserType.fromString(StringUtils.trimToEmpty(fileLine.substring(16, 18)));
-        this.userBalance = new BigDecimal(fileLine.substring(19, fileLine.length()).trim());
     }
 
     /**
