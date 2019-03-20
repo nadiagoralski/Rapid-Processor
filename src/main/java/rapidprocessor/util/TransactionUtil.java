@@ -25,6 +25,7 @@ import java.util.stream.Collectors;
 public class TransactionUtil {
 	Logger logger = LogManager.getLogger(this.getClass().getName());
 	TicketUtil ticketUtil = new TicketUtil();
+	UserUtil userUtil = new UserUtil();
 
     /**
      * Available Tickets
@@ -187,19 +188,35 @@ public class TransactionUtil {
 	 * @return ticketTransactions
 	 */
 	public void processTicketTransaction(TicketTransaction ticketTransaction) {
-			//update buyer credit
+		// get seller from available users and update their account balance
+		User seller = availableUsers.stream().filter(user -> ticketTransaction.getSellerNameVal().equals(user.getUsername())).findFirst().orElse(null);
+
+		// get ticket from available tickets
+		TicketBatch ticketBatch = availableTickets.stream()
+				.filter(ticket -> ticketTransaction.getEventTitleVal().equals(ticket.getEventTitle()))
+				.findFirst().orElse(null);
+
+		if (Transaction.TransactionType.BUY.equals(ticketTransaction.getTransactionType())) {
+			//TODO: update buyer credit
+			// figure out who bought the ticket
+			// get buyer from available users and update their account balance
+			// User buyer = availableUsers.stream().filter(user -> buyerUsername.equals(user.getUsername())).findFirst().orElse(null);
+
+			// update ticket quantity
+			ticketBatch.setQuantityAvailable(ticketBatch.getQuantityAvailable() - ticketTransaction.getQuantityVal());
+		} else if (Transaction.TransactionType.SELL.equals(ticketTransaction.getTransactionType())) {
 			//update seller credit
-
-			//update ticket count
-			// get ticket from available tickets and update ticket count
-			TicketBatch ticketBatch = ticketUtil.updateTicketCount(ticketTransaction, availableTickets.stream()
-					.filter(ticket -> ticketTransaction.getEventTitleVal().equals(ticket.getEventTitle()))
-					.findFirst().orElse(null));
-
-			// update ticket in available ticket list
-			availableTickets.stream()
-					.map(ticket -> ticketTransaction.getEventTitleVal().equals(ticket.getEventTitle()) ? ticketBatch : ticket)
+			seller.setUserBalance(seller.getUserBalance().add(ticketTransaction.getPriceVal()));
+			// update seller in available users list
+			availableUsers.stream()
+					.map(user -> ticketTransaction.getSellerNameVal().equals(user.getUsername()) ? seller : user)
 					.collect(Collectors.toList());
+		}
+
+		// update ticket in available ticket list
+		availableTickets.stream()
+				.map(ticket -> ticketTransaction.getEventTitleVal().equals(ticket.getEventTitle()) ? ticketBatch : ticket)
+				.collect(Collectors.toList());
 	}
 
 	/**

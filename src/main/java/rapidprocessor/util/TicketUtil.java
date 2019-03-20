@@ -6,7 +6,6 @@ import org.apache.logging.log4j.Logger;
 import rapidprocessor.ticketBatch.TicketBatch;
 import rapidprocessor.transaction.TicketTransaction;
 import rapidprocessor.transaction.Transaction;
-import rapidprocessor.user.User;
 
 
 import java.io.BufferedReader;
@@ -69,36 +68,6 @@ public class TicketUtil {
 		return ticketBatch;
 	}
 
-
-    /**
-     * Updates the ticket count depending on transaction type
-     *
-     * @param transaction
-	 * @return updated ticket batch object
-     */
-	public TicketBatch updateTicketCount(TicketTransaction transaction, TicketBatch ticketBatch) {
-		if (Transaction.TransactionType.BUY.equals(transaction.getTransactionType())) {
-			ticketBatch.setQuantityAvailable(ticketBatch.getQuantityAvailable() - transaction.getQuantityVal());
-		} else if (Transaction.TransactionType.SELL.equals(transaction.getTransactionType())) {
-
-		}
-
-		return ticketBatch;
-	}
-
-    /**
-     * Simple function to just update the ticketBatch list from the daily
-     * transaction file then returns new updated list
-     * @param ticketBatch
-     * @param transactions
-     */
-	public void updateTicketBatch(List<TicketBatch> ticketBatch, List<TicketTransaction> transactions) {
-
-		for (TicketTransaction transaction : transactions) {
-
-			//updateTicketCount(ticketBatch, transaction, 5);
-		}
-	}
 
     /**
      * Ticket Batch file writer

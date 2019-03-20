@@ -1,12 +1,10 @@
 package rapidprocessor;
 
 import rapidprocessor.ticketBatch.TicketBatch;
-import rapidprocessor.transaction.RefundTransaction;
-import rapidprocessor.transaction.UserTransaction;
 import rapidprocessor.user.User;
 import rapidprocessor.util.TicketUtil;
 import rapidprocessor.util.TransactionUtil;
-import rapidprocessor.util.UsersUtil;
+import rapidprocessor.util.UserUtil;
 
 import java.util.List;
 
@@ -17,19 +15,19 @@ import java.util.List;
 public class Main {
     // Global utils
     static TransactionUtil transactionUtil = null;
-    static UsersUtil usersUtil = new UsersUtil();
+    static UserUtil userUtil = new UserUtil();
     static TicketUtil ticketUtil = new TicketUtil();
 
     public static void main(String[] args) {
         // Get current available tickets and users
         List<TicketBatch> tickets = ticketUtil.getTicketBatchData();
-        List<User> users = usersUtil.getUserData();
+        List<User> users = userUtil.getUserData();
 
         // Read in data from ticket, transaction, and user files
         ticketUtil = new TicketUtil();
         transactionUtil = new TransactionUtil();
         transactionUtil.init(tickets, users);
-        usersUtil = new UsersUtil();
+        userUtil = new UserUtil();
 
         try {
 //            for (RefundTransaction refundTransaction : transactionUtil.getRefundTransactions()) {
