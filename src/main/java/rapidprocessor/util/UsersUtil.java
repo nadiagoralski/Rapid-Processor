@@ -79,7 +79,7 @@ public class UsersUtil {
 	 */
 	public List<User> updateUsersList(List<User> users, List<UserTransaction> transactions) {
 
-
+		
 		// update users
 		// Find all deleted users
 		for (UserTransaction transaction : transactions) {

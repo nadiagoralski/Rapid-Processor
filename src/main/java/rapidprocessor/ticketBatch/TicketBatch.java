@@ -46,6 +46,18 @@ public class TicketBatch {
      * @param quantityAvailable
      * @param price
      */
+    public TicketBatch(String eventTitle, String sellerName, String quantityAvailable, String price) {
+        this.eventTitle = eventTitle;
+        this.sellerName = sellerName;
+        this.quantityAvailable = new Integer(quantityAvailable);
+        this.price = new BigDecimal(price);
+    }
+    public TicketBatch(String eventTitle, String sellerName, Integer quantityAvailable, Integer price) {
+        this.eventTitle = eventTitle;
+        this.sellerName = sellerName;
+        this.quantityAvailable = quantityAvailable;
+        this.price = new BigDecimal(price);
+    }
     public TicketBatch(String eventTitle, String sellerName, Integer quantityAvailable, BigDecimal price) {
         this.eventTitle = eventTitle;
         this.sellerName = sellerName;
@@ -115,6 +127,9 @@ public class TicketBatch {
      */
     public void setPrice(BigDecimal price) {
         this.price = price;
+    }
+    public void setPrice(Integer price) {
+        this.price = new BigDecimal(price);
     }
 
     /**

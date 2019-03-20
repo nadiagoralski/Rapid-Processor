@@ -35,8 +35,8 @@ public class TransactionUtil {
      * Transaction Type lists
      */
     List<RefundTransaction> refundTransactions = new ArrayList<RefundTransaction>();
-	List<TicketTransaction> ticketTransactions = new ArrayList<TicketTransaction>();
-	List<UserTransaction> userTransactions = new ArrayList<UserTransaction>();
+		List<TicketTransaction> ticketTransactions = new ArrayList<TicketTransaction>();
+		List<UserTransaction> userTransactions = new ArrayList<UserTransaction>();
 	/**
 	 * Default constructor for TransactionUtil
      * Initialize global variables
