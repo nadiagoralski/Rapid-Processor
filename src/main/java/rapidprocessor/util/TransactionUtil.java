@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
  */
 public class TransactionUtil {
 	Logger logger = LogManager.getLogger(this.getClass().getName());
+	TicketUtil ticketUtil = new TicketUtil();
 
     /**
      * Available Tickets
@@ -186,28 +187,19 @@ public class TransactionUtil {
 	 * @return ticketTransactions
 	 */
 	public void processTicketTransaction(TicketTransaction ticketTransaction) {
-		if (Transaction.TransactionType.BUY.equals(ticketTransaction.getTransactionType())) {
-
 			//update buyer credit
 			//update seller credit
+
 			//update ticket count
-			TicketBatch ticketBatch = availableTickets.stream()
+			// get ticket from available tickets and update ticket count
+			TicketBatch ticketBatch = ticketUtil.updateTicketCount(ticketTransaction, availableTickets.stream()
 					.filter(ticket -> ticketTransaction.getEventTitleVal().equals(ticket.getEventTitle()))
-					.findFirst().orElse(null);
+					.findFirst().orElse(null));
 
-			logger.info("BEFORE: " + ticketBatch.getQuantityAvailable());
-
-			logger.info("AFTER: ");
+			// update ticket in available ticket list
 			availableTickets.stream()
 					.map(ticket -> ticketTransaction.getEventTitleVal().equals(ticket.getEventTitle()) ? ticketBatch : ticket)
 					.collect(Collectors.toList());
-
-			List<TicketBatch> arrayList = availableTickets;
-		} else if (Transaction.TransactionType.SELL.equals(ticketTransaction.getTransactionType())) {
-			//update buyer credit
-			//update seller credit
-			//update ticket count
-		}
 	}
 
 	/**

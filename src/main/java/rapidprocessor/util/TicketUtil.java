@@ -26,16 +26,6 @@ public class TicketUtil {
 	Logger logger = LogManager.getLogger(this.getClass().getName());
 	RapidProperties properties = new RapidProperties();
 
-    /*
-     * Lists of tickets to write
-     */
-    List<TicketBatch> ticketsToWrite = new ArrayList<TicketBatch>();
-
-	/*
-	 * List of available users
-	 */
-	List<User> users = new ArrayList<User>();
-
     /**
 	 * Default constructor for TicketUtil
 	 */
@@ -82,28 +72,18 @@ public class TicketUtil {
 
     /**
      * Updates the ticket count depending on transaction type
-     * and adds the ticket item to the list of tickets to write
      *
-     * If no transaction - keep ticket object as is
-     * @param tickets
      * @param transaction
-     * @param difference
+	 * @return updated ticket batch object
      */
-	public void updateTicketCount(List<TicketBatch> tickets, TicketTransaction transaction, Integer difference) {
-		for (TicketBatch ticket : tickets) {
+	public TicketBatch updateTicketCount(TicketTransaction transaction, TicketBatch ticketBatch) {
+		if (Transaction.TransactionType.BUY.equals(transaction.getTransactionType())) {
+			ticketBatch.setQuantityAvailable(ticketBatch.getQuantityAvailable() - transaction.getQuantityVal());
+		} else if (Transaction.TransactionType.SELL.equals(transaction.getTransactionType())) {
 
-			if (Transaction.TransactionType.BUY.equals(transaction.getTransactionType())) {
-				ticket.setQuantityAvailable(ticket.getQuantityAvailable() - difference);
-						//transaction.getTicketBatch().getQuantityAvailable());
-			}
-
-
-//			} else if (Transaction.TransactionType.SELL.equals(transaction.getTransactionType())) {
-//				ticket.setQuantityAvailable(ticket.getQuantityAvailable() - difference);
-//			}
-
-			ticketsToWrite.add(ticket);
 		}
+
+		return ticketBatch;
 	}
 
     /**
@@ -125,7 +105,7 @@ public class TicketUtil {
      *
      * Writes out all the updated tickets to a file.
      */
-	public void updateTicketBatchDatabase() {
+	public void updateTicketBatchDatabase(List<TicketBatch> ticketsToWrite) {
 		System.out.println("updating to file");
 
 
