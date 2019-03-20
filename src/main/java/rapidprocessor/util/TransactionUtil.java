@@ -71,7 +71,7 @@ public class TransactionUtil {
             } else if (Constants.TRANSACTION_TICKET.equals(transaction.getTransactionType().getParseType())) {
 				processTicketTransaction((TicketTransaction) transaction);
             } else if (Constants.TRANSACTION_USER.equals(transaction.getTransactionType().getParseType())) {
-				//processUserTransaction((UserTransaction) transaction);
+				processUserTransaction((UserTransaction) transaction);
             }
         }
     }
@@ -240,15 +240,17 @@ public class TransactionUtil {
 	 * @return userTransactions
 	 */
 	public void processUserTransaction(UserTransaction userTransaction) {
-		// get user from available users
-		User user = availableUsers.stream().filter(userObj -> userTransaction.getUsernameVal().equals(userObj.getUsername())).findFirst().orElse(null);
-
 		if (Transaction.TransactionType.CREATE.equals(userTransaction.getTransactionType())) {
-
+			// add user to the list of users
+			availableUsers.add(new User(userTransaction.getUsernameVal(), userTransaction.getUserTypeVal(), userTransaction.getCreditVal()));
 		} else if (Transaction.TransactionType.DELETE.equals(userTransaction.getTransactionType())) {
-
+			// remove user from list of users
+			availableUsers.removeIf(userObj -> userTransaction.getUsernameVal().equals(userObj.getUsername()));
 		} else if (Transaction.TransactionType.ADD_CREDIT.equals(userTransaction.getTransactionType())) {
-
+			// get user from available users
+			User user = availableUsers.stream().filter(userObj -> userTransaction.getUsernameVal().equals(userObj.getUsername())).findFirst().orElse(null);
+			// add credit value to user account
+			user.setUserBalance(user.getUserBalance().add(userTransaction.getCreditVal()));
 		}
 
 	}
