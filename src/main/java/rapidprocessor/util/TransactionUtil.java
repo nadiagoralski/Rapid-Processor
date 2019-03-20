@@ -240,6 +240,16 @@ public class TransactionUtil {
 	 * @return userTransactions
 	 */
 	public void processUserTransaction(UserTransaction userTransaction) {
+		// get user from available users
+		User user = availableUsers.stream().filter(userObj -> userTransaction.getUsernameVal().equals(userObj.getUsername())).findFirst().orElse(null);
+
+		if (Transaction.TransactionType.CREATE.equals(userTransaction.getTransactionType())) {
+
+		} else if (Transaction.TransactionType.DELETE.equals(userTransaction.getTransactionType())) {
+
+		} else if (Transaction.TransactionType.ADD_CREDIT.equals(userTransaction.getTransactionType())) {
+
+		}
 
 	}
 
