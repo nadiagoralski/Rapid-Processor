@@ -27,6 +27,6 @@ public class RefundTransactionParser implements TransactionParser {
         User seller = availableUsers.stream().filter(user -> sellerUsername.equals(user.getUsername())).findFirst().orElse(null);
         BigDecimal credit = new BigDecimal(fileLine.substring(59, fileLine.length()));
 
-        return new RefundTransaction(buyer, seller, credit);
+        return new RefundTransaction(buyer.getUsername(), seller.getUsername(), credit);
     }
 }

@@ -31,6 +31,6 @@ public class TicketTransactionParser implements TransactionParser {
         Integer quantity = new Integer(fileLine.substring(38, 40));
         BigDecimal price = new BigDecimal(fileLine.substring(42, fileLine.length()));
 
-        return new TicketTransaction(transactionType, ticketBatch);
+        return new TicketTransaction(transactionType, ticketBatch.getEventTitle(), seller.getUsername(), quantity, price);
     }
 }

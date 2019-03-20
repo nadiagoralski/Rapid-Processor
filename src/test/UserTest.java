@@ -26,7 +26,7 @@ public class UserTest {
     public void setUserBalance() {
     }
 
-    @Test
-    public void toString() {
-    }
+//    @Test
+//    public void toString() {
+//    }
 }

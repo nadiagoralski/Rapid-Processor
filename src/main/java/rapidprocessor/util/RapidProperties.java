@@ -41,7 +41,7 @@ public class RapidProperties extends Properties {
             }
 
         } catch (IOException e) {
-            logger.error(Constants.ERROR_PREFIX, e);
+            logger.error(Constants.ERROR_PREFIX, "Properties file not found");
         }
     }
 
