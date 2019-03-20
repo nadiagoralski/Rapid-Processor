@@ -18,7 +18,7 @@ public class RefundTransaction implements Transaction {
      * XX_UUUUUUUUUUUUUUU_SSSSSSSSSSSSSSS_CCCCCCCCC
      * @param buyerUsername
      * @param sellerUsername
-     * @param amount
+     * @param credit
      */
     public RefundTransaction(String buyerUsername, String sellerUsername, BigDecimal credit) {
         this.buyerNameVal = buyerUsername;

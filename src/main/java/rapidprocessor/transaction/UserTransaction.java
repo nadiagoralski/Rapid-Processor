@@ -14,21 +14,25 @@ public class UserTransaction implements Transaction {
     private String transactionString;
     private Transaction.TransactionType transactionType;
 
+
     /**
      * XX_UUUUUUUUUUUUUUU_TT_CCCCCCCCC
-     * @param user
+     * @param transactionType
+     * @param username
+     * @param userType
+     * @param credit
      */
-    public UserTransaction(Transaction.TransactionType transactionType, User user, BigDecimal credit) {
+    public UserTransaction(Transaction.TransactionType transactionType, String username, String userType, BigDecimal credit) {
         this.transactionType = transactionType;
         // Pad the string values with spaces and numeric values with 0's
-        this.usernameVal = StringUtils.rightPad(user.getUsername(), Constants.MAX_USERNAME_LENGTH);
-        this.userTypeVal = user.getUserType().getCode();
+        this.usernameVal = username;
+        this.userTypeVal = userType;
         this.creditVal = credit;
 
         this.transactionString = this.transactionType.getCode() + " " +
-            this.usernameVal + " " +
-            this.userTypeVal + " " +
-            StringUtils.leftPad(this.creditVal.toString().replace(".", ""), 9, "0");
+                StringUtils.rightPad(this.usernameVal, Constants.MAX_USERNAME_LENGTH, " ") + " " +
+                this.userTypeVal + " " +
+                StringUtils.leftPad(this.creditVal.toString().replace(".", ""), 9, "0");
     }
 
     /**
