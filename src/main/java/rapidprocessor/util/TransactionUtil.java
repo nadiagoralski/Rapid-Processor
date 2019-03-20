@@ -177,7 +177,6 @@ public class TransactionUtil {
 
 	/**
 	 * Processes Refund Transactions
-	 * @return refundTransactions
 	 */
 	public void processRefundTransaction(RefundTransaction refundTransaction) {
 		// get buyer and seller from available users
@@ -200,7 +199,6 @@ public class TransactionUtil {
 
 	/**
 	 * Processes Ticket Transactions
-	 * @return ticketTransactions
 	 */
 	public void processTicketTransaction(TicketTransaction ticketTransaction) {
 		// get seller from available users and update their account balance
@@ -237,7 +235,6 @@ public class TransactionUtil {
 
 	/**
 	 * Processes User Transactions
-	 * @return userTransactions
 	 */
 	public void processUserTransaction(UserTransaction userTransaction) {
 		if (Transaction.TransactionType.CREATE.equals(userTransaction.getTransactionType())) {
