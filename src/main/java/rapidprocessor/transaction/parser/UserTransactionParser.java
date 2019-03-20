@@ -20,14 +20,13 @@ public class UserTransactionParser implements TransactionParser {
         // Get string values
         String transactionCode = fileLine.substring(0, 2);
         String username = fileLine.substring(3, 18).trim();
-        //String userTypeCode = fileLine.substring(18, 20);
+        String userTypeCode = fileLine.substring(18, 20);
         BigDecimal userBalance = new BigDecimal(fileLine.substring(21).trim());
 
         // Find user objects matching username, get transaction type and credit value
         Transaction.TransactionType transactionType = Transaction.TransactionType.fromCode(transactionCode);
-        User user = availableUsers.stream().filter(userInList -> username.equals(userInList.getUsername())).findFirst().orElse(null);
         BigDecimal credit = userBalance;
 
-        return new UserTransaction(transactionType, user, credit);
+        return new UserTransaction(transactionType, username, userTypeCode, credit);
     }
 }
