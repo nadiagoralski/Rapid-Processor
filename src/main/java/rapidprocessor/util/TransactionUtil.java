@@ -69,7 +69,7 @@ public class TransactionUtil {
             } else if (Constants.TRANSACTION_TICKET.equals(transaction.getTransactionType().getParseType())) {
 				processTicketTransaction((TicketTransaction) transaction);
             } else if (Constants.TRANSACTION_USER.equals(transaction.getTransactionType().getParseType())) {
-				//processUserInteraction((UserTransaction) transaction);
+				//processUserTransaction((UserTransaction) transaction);
             }
         }
     }
@@ -214,7 +214,7 @@ public class TransactionUtil {
 	 * Processes User Transactions
 	 * @return userTransactions
 	 */
-	public void processUserInteraction(UserTransaction userTransaction) {
+	public void processUserTransaction(UserTransaction userTransaction) {
 
 	}
 
