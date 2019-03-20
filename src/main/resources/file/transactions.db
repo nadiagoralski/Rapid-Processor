@@ -5,7 +5,7 @@
 05 userSS          userBS          000005.05
 05 userSS          userBS          005000.00
 05 userSS          userBS          000010.00
-04 Test Event Title1         userSS          005 110.00
-04 Test Event Title2         userSS          003 110.00
-04 Test Event Title3         userSS          005 110.00
-04 Test Event Title4         userSS          010 110.00
+04 Test Event Title1         admin           005 110.00
+04 Test Event Title1         userSS          003 110.00
+04 Test Event Title2         userSS          005 110.00
+04 Test Event Title2         userSS          010 110.00

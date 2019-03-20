@@ -193,7 +193,7 @@ public class TransactionUtil {
 
 		// get ticket from available tickets
 		TicketBatch ticketBatch = availableTickets.stream()
-				.filter(ticket -> ticketTransaction.getEventTitleVal().equals(ticket.getEventTitle()))
+				.filter(ticket -> ticketTransaction.getEventTitleVal().equals(ticket.getEventTitle()) && ticketTransaction.getSellerNameVal().equals(ticket.getSellerName()))
 				.findFirst().orElse(null);
 
 		if (Transaction.TransactionType.BUY.equals(ticketTransaction.getTransactionType())) {
@@ -215,7 +215,8 @@ public class TransactionUtil {
 
 		// update ticket in available ticket list
 		availableTickets.stream()
-				.map(ticket -> ticketTransaction.getEventTitleVal().equals(ticket.getEventTitle()) ? ticketBatch : ticket)
+				.map(ticket -> ticketTransaction.getEventTitleVal().equals(ticket.getEventTitle()) && ticketTransaction.getSellerNameVal().equals(ticket.getSellerName())
+								? ticketBatch : ticket)
 				.collect(Collectors.toList());
 	}
 
