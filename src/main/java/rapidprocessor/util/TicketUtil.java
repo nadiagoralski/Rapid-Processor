@@ -1,9 +1,13 @@
 package rapidprocessor.util;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import rapidprocessor.ticketBatch.TicketBatch;
 import rapidprocessor.transaction.TicketTransaction;
 import rapidprocessor.transaction.Transaction;
+import rapidprocessor.user.User;
+
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -13,17 +17,24 @@ import java.io.FileWriter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * TicketUtil
  * Handles ticket file processing
  */
 public class TicketUtil {
+	Logger logger = LogManager.getLogger(this.getClass().getName());
 	RapidProperties properties = new RapidProperties();
 
     /*
      * Lists of tickets to write
      */
     private List<TicketBatch> ticketsToWrite = new ArrayList<TicketBatch>();
+
+	/*
+	 * List of available users
+	 */
+	List<User> users = new ArrayList<User>();
 
     /**
 	 * Default constructor for TicketUtil
@@ -36,7 +47,7 @@ public class TicketUtil {
      * @return list of TicketBatch objects
      */
 	public List<TicketBatch> getTicketBatchData() {
-		System.out.println("reading file...");
+		logger.info("reading file...");
 
 		String fileName = properties.getProperty("available_tickets_filepath");
 		String line;
@@ -52,18 +63,17 @@ public class TicketUtil {
 
 			while ((line = br.readLine()) != null) {
 				String eventTitle = StringUtils.trimToEmpty(line.substring(0, Constants.MAX_EVENT_TITLE_LENGTH - 1));
-				String sellerName = StringUtils.trimToEmpty(line.substring(25, 33));
-				Integer quantityAvailable = Integer.parseInt(line.substring(34, 37));
-				BigDecimal price = new BigDecimal(line.substring(38, line.length()).trim());
+				String sellerName = StringUtils.trimToEmpty(line.substring(26, 26+Constants.MAX_USERNAME_LENGTH));
+				Integer quantityAvailable = Integer.parseInt(line.substring(42, 45));
+				BigDecimal price = new BigDecimal(line.substring(46).trim());
 				ticketBatch.add(new TicketBatch(eventTitle, sellerName, quantityAvailable, price));
 			}
 
 			br.close();
 
 		} catch (Exception e) {
-			// TODO: handle exception
-
-			System.out.println(e.toString());
+			//TODO: update error handling
+			logger.error(e);
 		}
 
 		return ticketBatch;
@@ -79,14 +89,18 @@ public class TicketUtil {
      * @param transaction
      * @param difference
      */
-	private void updateTicketCount(List<TicketBatch> tickets, TicketTransaction transaction, Integer difference) {
+	public void updateTicketCount(List<TicketBatch> tickets, TicketTransaction transaction, Integer difference) {
 		for (TicketBatch ticket : tickets) {
 
 			if (Transaction.TransactionType.BUY.equals(transaction.getTransactionType())) {
-				ticket.setQuantityAvailable(ticket.getQuantityAvailable() + difference);
-			} else if (Transaction.TransactionType.SELL.equals(transaction.getTransactionType())) {
 				ticket.setQuantityAvailable(ticket.getQuantityAvailable() - difference);
+						//transaction.getTicketBatch().getQuantityAvailable());
 			}
+
+
+//			} else if (Transaction.TransactionType.SELL.equals(transaction.getTransactionType())) {
+//				ticket.setQuantityAvailable(ticket.getQuantityAvailable() - difference);
+//			}
 
 			ticketsToWrite.add(ticket);
 		}
@@ -101,8 +115,8 @@ public class TicketUtil {
 	public void updateTicketBatch(List<TicketBatch> ticketBatch, List<TicketTransaction> transactions) {
 
 		for (TicketTransaction transaction : transactions) {
-			// TODO: Implement calculation; placeholder is 5
-			updateTicketCount(ticketBatch, transaction, 5);
+
+			//updateTicketCount(ticketBatch, transaction, 5);
 		}
 	}
 

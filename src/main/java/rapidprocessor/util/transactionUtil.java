@@ -1,5 +1,7 @@
 package rapidprocessor.util;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import rapidprocessor.ticketBatch.TicketBatch;
 import rapidprocessor.transaction.RefundTransaction;
 import rapidprocessor.transaction.TicketTransaction;
@@ -12,15 +14,17 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * TransactionUtil Class
  * Handles transaction file processing
  */
 public class TransactionUtil {
+	Logger logger = LogManager.getLogger(this.getClass().getName());
+
     /**
      * Available Tickets
      */
@@ -61,11 +65,11 @@ public class TransactionUtil {
         List<Transaction> transactions = buildTransactionList();
         for (Transaction transaction : transactions) {
             if (Constants.TRANSACTION_REFUND.equals(transaction.getTransactionType().getParseType())) {
-                refundTransactions.add((RefundTransaction) transaction);
+            	//processRefundTransaction((RefundTransaction) transaction);
             } else if (Constants.TRANSACTION_TICKET.equals(transaction.getTransactionType().getParseType())) {
-                ticketTransactions.add((TicketTransaction) transaction);
+				processTicketTransaction((TicketTransaction) transaction);
             } else if (Constants.TRANSACTION_USER.equals(transaction.getTransactionType().getParseType())) {
-                userTransactions.add((UserTransaction) transaction);
+				//processUserTransaction((UserTransaction) transaction);
             }
         }
     }
@@ -75,7 +79,7 @@ public class TransactionUtil {
 	 * @param transactionType
 	 * @return transaction parser object
 	 */
-	public static TransactionParser getParser(Transaction.TransactionType transactionType) {
+	public TransactionParser getParser(Transaction.TransactionType transactionType) {
 		String transactionParserClass = "";
 		TransactionParser tp = null;
 
@@ -84,13 +88,13 @@ public class TransactionUtil {
 			switch (transactionType) {
 				case BUY:
 				case SELL:
-					transactionParserClass = "rapidprocessor.transaction.parser.TicketBuySellParser";
+					transactionParserClass = "rapidprocessor.transaction.parser.TicketTransactionParser";
 					break;
 				case ADD_CREDIT:
 				case CREATE:
 				case DELETE:
 				case END_OF_SESSION:
-					transactionParserClass = "rapidprocessor.transaction.parser.UserAccountParser";
+					transactionParserClass = "rapidprocessor.transaction.parser.UserTransactionParser";
 					break;
 				case REFUND:
 					transactionParserClass = "rapidprocessor.transaction.parser.RefundTransactionParser";
@@ -102,13 +106,11 @@ public class TransactionUtil {
 
 			if (transactionParserClass != null) {
 				// If there was a class match, create the Transaction Parser
-				Class classRef = Class.forName(transactionParserClass);
-				tp = (TransactionParser) classRef.newInstance();
+				tp = (TransactionParser)  Class.forName(transactionParserClass).newInstance();
 			}
 
 		} catch (Exception e) {
-			// TODO: Handle more specific exceptions
-			e.printStackTrace();
+			logger.error(e);
 		}
 
 		return tp;
@@ -121,8 +123,7 @@ public class TransactionUtil {
 	 * will read file of daily transactions and 
 	 */
 	private List<Transaction> buildTransactionList() {
-
-		System.out.println("reading file...");
+		logger.info("reading file...");
 
 		// Initialize file name and line variables
 		String fileName = "file/transactions.db";
@@ -143,13 +144,7 @@ public class TransactionUtil {
 
 			// Read each line of the file and create the Transaction objects
 			while ((line = br.readLine()) != null) {
-				String transactionCode = line.substring(0, 15);
-				String userName = line.substring(3, 18);
-				String userTypeCode = line.substring(18, 20);
-				BigDecimal userBalance = new BigDecimal(line.substring(21, line.length()).trim());
-
-				User user = new User(userName, userTypeCode, userBalance);
-				transactionParser = getParser(Transaction.TransactionType.fromCode(transactionCode));
+				transactionParser = getParser(Transaction.TransactionType.fromCode(line.substring(0, 2)));
 
 
 				if (transactionParser != null) {
@@ -158,9 +153,8 @@ public class TransactionUtil {
 			}
 
 		} catch (Exception e) {
-			// TODO: handle exception
-
-			System.out.println(e.toString());
+			logger.error(e);
+			e.printStackTrace();
 		} finally {
 			try {
 				// Try to lose any open readers
@@ -172,35 +166,56 @@ public class TransactionUtil {
 					fr.close();
 				}
 			} catch (IOException ioe) {
-				// TODO: handle exception
-				ioe.printStackTrace();
+				logger.error(ioe);
 			}
 		}
 
 		return transactions;
 	}
 
-    /**
-     * Return list of Refund Transactions
-     * @return refundTransactions
-     */
-	public List<RefundTransaction> getRefundTransactions() {
-		return refundTransactions;
+	/**
+	 * Processes Refund Transactions
+	 * @return refundTransactions
+	 */
+	public void processRefundTransaction(RefundTransaction refundTransaction) {
+
 	}
 
-    /**
-     * Return list of Ticket Transactions
-     * @return ticketTransactions
-     */
-	public List<TicketTransaction> getTicketTransactions() {
-		return ticketTransactions;
+	/**
+	 * Processes Ticket Transactions
+	 * @return ticketTransactions
+	 */
+	public void processTicketTransaction(TicketTransaction ticketTransaction) {
+		if (Transaction.TransactionType.BUY.equals(ticketTransaction.getTransactionType())) {
+
+			//update buyer credit
+			//update seller credit
+			//update ticket count
+			TicketBatch ticketBatch = availableTickets.stream()
+					.filter(ticket -> ticketTransaction.getEventTitleVal().equals(ticket.getEventTitle()))
+					.findFirst().orElse(null);
+
+			logger.info("BEFORE: " + ticketBatch.getQuantityAvailable());
+
+			logger.info("AFTER: ");
+			availableTickets.stream()
+					.map(ticket -> ticketTransaction.getEventTitleVal().equals(ticket.getEventTitle()) ? ticketBatch : ticket)
+					.collect(Collectors.toList());
+
+			List<TicketBatch> arrayList = availableTickets;
+		} else if (Transaction.TransactionType.SELL.equals(ticketTransaction.getTransactionType())) {
+			//update buyer credit
+			//update seller credit
+			//update ticket count
+		}
 	}
 
-    /**
-     * Return list of User Transactions
-     * @return userTransactions
-     */
-	public List<UserTransaction> getUserTransactions() {
-		return userTransactions;
+	/**
+	 * Processes User Transactions
+	 * @return userTransactions
+	 */
+	public void processUserTransaction(UserTransaction userTransaction) {
+
 	}
+
 }

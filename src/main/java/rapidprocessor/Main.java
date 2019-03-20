@@ -17,8 +17,8 @@ import java.util.List;
 public class Main {
     // Global utils
     static TransactionUtil transactionUtil = null;
-    static UsersUtil usersUtil = null;
-    static TicketUtil ticketUtil = null;
+    static UsersUtil usersUtil = new UsersUtil();
+    static TicketUtil ticketUtil = new TicketUtil();
 
     public static void main(String[] args) {
         // Get current available tickets and users
@@ -32,18 +32,20 @@ public class Main {
         usersUtil = new UsersUtil();
 
         try {
-            for (RefundTransaction refundTransaction : transactionUtil.getRefundTransactions()) {
-                // TODO: implement
-                // will affect the user file
-            }
+//            for (RefundTransaction refundTransaction : transactionUtil.getRefundTransactions()) {
+//                // TODO: implement
+//                // will affect the user file
+//            }
 
             // Process Ticket Transactions
-            ticketUtil.updateTicketBatch(tickets, transactionUtil.getTicketTransactions());
-            ticketUtil.updateTicketBatchDatabase();
+            //ticketUtil.updateTicketBatch(tickets, transactionUtil.getTicketTransactions());
+
+
+            //ticketUtil.updateTicketBatchDatabase();
 
             // Process User Transactions
-            usersUtil.updateUsersList(users, transactionUtil.getUserTransactions());
-            usersUtil.updateUserDatabase();
+            //usersUtil.updateUsersList(users, transactionUtil.getUserTransactions());
+            //usersUtil.updateUserDatabase();
 
 
         } catch (Exception e) {

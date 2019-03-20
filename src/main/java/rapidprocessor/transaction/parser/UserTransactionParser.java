@@ -17,14 +17,17 @@ public class UserTransactionParser implements TransactionParser {
      * @return UserTransaction
      */
     public UserTransaction parse(String fileLine, List<TicketBatch> availableTickets, List<User> availableUsers) {
-        // Get string values for buyer username and seller username
-        String username = StringUtils.trimToEmpty(fileLine.substring(4, 4 + Constants.MAX_USERNAME_LENGTH));
+        // Get string values
+        String transactionCode = fileLine.substring(0, 2);
+        String username = fileLine.substring(3, 18).trim();
+        //String userTypeCode = fileLine.substring(18, 20);
+        BigDecimal userBalance = new BigDecimal(fileLine.substring(21).trim());
 
         // Find user objects matching username, get transaction type and credit value
-        Transaction.TransactionType transactionType = Transaction.TransactionType.fromCode((fileLine.substring(0, 2)));
+        Transaction.TransactionType transactionType = Transaction.TransactionType.fromCode(transactionCode);
         User user = availableUsers.stream().filter(userInList -> username.equals(userInList.getUsername())).findFirst().orElse(null);
-        BigDecimal credit = new BigDecimal(fileLine.substring(30, fileLine.length()));
+        BigDecimal credit = userBalance;
 
-        return new UserTransaction(transactionType, user);
+        return new UserTransaction(transactionType, user, credit);
     }
 }

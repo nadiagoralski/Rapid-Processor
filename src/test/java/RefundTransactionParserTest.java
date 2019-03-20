@@ -12,33 +12,34 @@ import rapidprocessor.transaction.parser.RefundTransactionParser;
 import rapidprocessor.user.User;
 
 public class RefundTransactionParserTest {
+
+    String line = "05 userSS          userBS          000050.00";
+    User ss = new User("userSS         ", "AA", 10);
+    User bs = new User("userBS         ", "AA", 10);
+    List<User> users = new ArrayList<User>();
+    List<TicketBatch> tickets = new ArrayList<TicketBatch>();
+    
+    
+
     @Test
-    public void testRefundTransactionParseNone() {
-        String line = "01 UUUUUUUUUUUUUUU SSSSSSSSSSSSSSS 000010.00";
-
-        String ticketTitle = "title", ticketName = "ticketName";
-
+    public void testRefundTransactionParse() {
+        
+        String ticketTitle = "title", SellerName = "userSS         ";
         Integer ticketQty = 10, ticketPrice = 10;
 
-        
-        User u = new User("UUUUUUUUUUUUUUS", "AA", 10);
-        User s = new User("SSSSSSSSSSSSSSU", "AA", 10);
-        
-        RefundTransaction dummyRefund = new RefundTransaction(null, null, null);
-
-        TicketBatch ticket = new TicketBatch(ticketTitle, ticketName, ticketQty, ticketPrice);
-
-        List<TicketBatch> tickets = new ArrayList<>();
-        List<User> users = new ArrayList<User>();
+        TicketBatch ticket = new TicketBatch(ticketTitle, SellerName, ticketQty, ticketPrice);
 
         tickets.add(ticket);
-        users.add(u);
-        users.add(s);
+
+        users.add(ss);
+        users.add(bs);
+
         RefundTransactionParser parser = new RefundTransactionParser();
 
         RefundTransaction newRefund = parser.parse(line, tickets, users);
 
-        assertEquals(dummyRefund.getTransactionString(), newRefund.getTransactionString());
+        assertEquals("05 userSS          userBS          000050.00", newRefund.getTransactionString());
+        assertEquals("05", newRefund.getTransactionType());
 
     }
 

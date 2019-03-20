@@ -8,20 +8,19 @@ import java.math.BigDecimal;
 
 public class RefundTransaction implements Transaction {
     private String transactionString;
-    private TransactionType transactionType =  TransactionType.REFUND;
+    private TransactionType transactionType = TransactionType.REFUND;
 
     /**
      * XX_UUUUUUUUUUUUUUU_SSSSSSSSSSSSSSS_CCCCCCCCC
-     * @param buyer
-     * @param seller
+     * @param buyerUsername
+     * @param sellerUsername
      * @param amount
      */
-    public RefundTransaction(User buyer, User seller, BigDecimal amount) {
+    public RefundTransaction(String buyerUsername, String sellerUsername, BigDecimal amount) {
         transactionString = transactionType.getCode() + " " +
-                StringUtils.rightPad(buyer.getUsername(), Constants.MAX_USERNAME_LENGTH) + " " +
-                StringUtils.rightPad(seller.getUsername(), Constants.MAX_USERNAME_LENGTH) + " " +
-                StringUtils.leftPad(amount.setScale(2, BigDecimal.ROUND_HALF_UP).toString(), 9, "0");
-
+                StringUtils.rightPad(buyerUsername, Constants.MAX_USERNAME_LENGTH) + " " +
+                StringUtils.rightPad(sellerUsername, Constants.MAX_USERNAME_LENGTH) + " " +
+                StringUtils.leftPad(amount.setScale(2, BigDecimal.ROUND_HALF_UP).toString().replace(".", ""), 9, "0");
     }
 
     /**

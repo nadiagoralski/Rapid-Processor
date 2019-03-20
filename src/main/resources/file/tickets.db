@@ -1,5 +1,7 @@
-Test2               STDuser       100 10.00 
-Test                STDuser       12  10.00 
-Test                STDuser       24  10.00 
-Test                STDuser       36  10.00 
-EEEEEEEEEEEEEEEEEEE_SSSSSSSSSSSSS_100_000000
+Test2                     STDuser         100 10.00
+Test                      STDuser         012  10.00
+Test                      STDuser         024  10.00
+Test                      STDuser         036  10.00
+Test Event Title          admin           100 025.00
+Test Event Title          userSS          100 025.00
+Test Event Title          userFS          100 025.00
