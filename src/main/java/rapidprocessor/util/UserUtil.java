@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.apache.commons.lang3.StringUtils;
+import rapidprocessor.transaction.TicketTransaction;
 import rapidprocessor.transaction.Transaction;
 import rapidprocessor.transaction.UserTransaction;
 import rapidprocessor.user.User;
@@ -20,7 +21,7 @@ import rapidprocessor.user.User;
  * UserUtil class
  * Handles user file processing
  */
-public class UsersUtil {
+public class UserUtil {
 	Logger logger = Logger.getLogger(this.getClass().getName());
 	RapidProperties properties = new RapidProperties();
 
@@ -38,7 +39,7 @@ public class UsersUtil {
 	/**
 	 * Default constructor for UserUtil
 	 */
-	public UsersUtil() {
+	public UserUtil() {
 	}
 
 	public List<User> getUserData() {

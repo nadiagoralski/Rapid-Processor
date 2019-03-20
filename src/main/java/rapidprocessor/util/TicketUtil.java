@@ -6,7 +6,6 @@ import org.apache.logging.log4j.Logger;
 import rapidprocessor.ticketBatch.TicketBatch;
 import rapidprocessor.transaction.TicketTransaction;
 import rapidprocessor.transaction.Transaction;
-import rapidprocessor.user.User;
 
 
 import java.io.BufferedReader;
@@ -25,16 +24,6 @@ import java.util.List;
 public class TicketUtil {
 	Logger logger = LogManager.getLogger(this.getClass().getName());
 	RapidProperties properties = new RapidProperties();
-
-    /*
-     * Lists of tickets to write
-     */
-    private List<TicketBatch> ticketsToWrite = new ArrayList<TicketBatch>();
-
-	/*
-	 * List of available users
-	 */
-	List<User> users = new ArrayList<User>();
 
     /**
 	 * Default constructor for TicketUtil
@@ -81,51 +70,11 @@ public class TicketUtil {
 
 
     /**
-     * Updates the ticket count depending on transaction type
-     * and adds the ticket item to the list of tickets to write
-     *
-     * If no transaction - keep ticket object as is
-     * @param tickets
-     * @param transaction
-     * @param difference
-     */
-	public void updateTicketCount(List<TicketBatch> tickets, TicketTransaction transaction, Integer difference) {
-		for (TicketBatch ticket : tickets) {
-
-			if (Transaction.TransactionType.BUY.equals(transaction.getTransactionType())) {
-				ticket.setQuantityAvailable(ticket.getQuantityAvailable() - difference);
-						//transaction.getTicketBatch().getQuantityAvailable());
-			}
-
-
-//			} else if (Transaction.TransactionType.SELL.equals(transaction.getTransactionType())) {
-//				ticket.setQuantityAvailable(ticket.getQuantityAvailable() - difference);
-//			}
-
-			ticketsToWrite.add(ticket);
-		}
-	}
-
-    /**
-     * Simple function to just update the ticketBatch list from the daily
-     * transaction file then returns new updated list
-     * @param ticketBatch
-     * @param transactions
-     */
-	public void updateTicketBatch(List<TicketBatch> ticketBatch, List<TicketTransaction> transactions) {
-
-		for (TicketTransaction transaction : transactions) {
-
-			//updateTicketCount(ticketBatch, transaction, 5);
-		}
-	}
-
-    /**
      * Ticket Batch file writer
      *
      * Writes out all the updated tickets to a file.
      */
-	public void updateTicketBatchDatabase() {
+	public void updateTicketBatchDatabase(List<TicketBatch> ticketsToWrite) {
 		System.out.println("updating to file");
 
 
