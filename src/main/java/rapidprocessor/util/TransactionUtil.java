@@ -67,7 +67,7 @@ public class TransactionUtil {
         List<Transaction> transactions = buildTransactionList();
         for (Transaction transaction : transactions) {
             if (Constants.TRANSACTION_REFUND.equals(transaction.getTransactionType().getParseType())) {
-            	//processRefundTransaction((RefundTransaction) transaction);
+            	processRefundTransaction((RefundTransaction) transaction);
             } else if (Constants.TRANSACTION_TICKET.equals(transaction.getTransactionType().getParseType())) {
 				processTicketTransaction((TicketTransaction) transaction);
             } else if (Constants.TRANSACTION_USER.equals(transaction.getTransactionType().getParseType())) {
@@ -180,7 +180,22 @@ public class TransactionUtil {
 	 * @return refundTransactions
 	 */
 	public void processRefundTransaction(RefundTransaction refundTransaction) {
+		// get buyer and seller from available users
+		User buyer = availableUsers.stream().filter(user -> refundTransaction.getBuyerNameVal().equals(user.getUsername())).findFirst().orElse(null);
+		User seller = availableUsers.stream().filter(user -> refundTransaction.getSellerNameVal().equals(user.getUsername())).findFirst().orElse(null);
 
+		// update account balances
+		buyer.setUserBalance(buyer.getUserBalance().add(refundTransaction.getCreditVal()));
+		seller.setUserBalance(seller.getUserBalance().subtract(refundTransaction.getCreditVal()));
+
+
+		// update users in available users list
+		availableUsers.stream()
+				.map(user -> refundTransaction.getBuyerNameVal().equals(user.getUsername()) ? buyer : user)
+				.collect(Collectors.toList());
+		availableUsers.stream()
+				.map(user -> refundTransaction.getSellerNameVal().equals(user.getUsername()) ? seller : user)
+				.collect(Collectors.toList());
 	}
 
 	/**
