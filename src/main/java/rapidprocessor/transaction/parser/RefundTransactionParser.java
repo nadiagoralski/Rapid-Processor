@@ -18,14 +18,14 @@ public class RefundTransactionParser implements TransactionParser {
      */
     public RefundTransaction parse(String fileLine, List<TicketBatch> availableTickets, List<User> availableUsers) {
         // Get string values for buyer username and seller username
-        String buyerUsername = StringUtils.trimToEmpty(fileLine.substring(4, 4 + Constants.MAX_USERNAME_LENGTH));
-        String sellerUsername = StringUtils.trimToEmpty(fileLine.substring(20, 20 + Constants.MAX_USERNAME_LENGTH));
+        String buyerUsername = StringUtils.trimToEmpty(fileLine.substring(3, 4 + Constants.MAX_USERNAME_LENGTH));
+        String sellerUsername = StringUtils.trimToEmpty(fileLine.substring(19, 20 + Constants.MAX_USERNAME_LENGTH));
 
 
         // Find user objects matching usernames, get credit value
         User buyer = availableUsers.stream().filter(user -> buyerUsername.equals(user.getUsername())).findFirst().orElse(null);
         User seller = availableUsers.stream().filter(user -> sellerUsername.equals(user.getUsername())).findFirst().orElse(null);
-        BigDecimal credit = new BigDecimal(fileLine.substring(59, fileLine.length()));
+        BigDecimal credit = new BigDecimal(fileLine.substring(36));
 
         return new RefundTransaction(buyer.getUsername(), seller.getUsername(), credit);
     }
