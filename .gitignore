@@ -1,6 +1,7 @@
 .classpath
-.project
+.factorypath
 .iml
+.project
 
 .idea/
 .vs/
