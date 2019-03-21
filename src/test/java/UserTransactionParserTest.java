@@ -30,4 +30,6 @@ public class UserTransactionParserTest {
         assertEquals("01", userTransaction.getTransactionType());
         assertEquals("01 userSS          SS 001000.00", userTransaction.getTransactionString());
     }
+
+    
 }

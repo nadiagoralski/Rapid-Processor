@@ -279,4 +279,18 @@ public class TransactionUtil {
 
 	}
 
+	/**
+	 * @return the availableTickets
+	 */
+	public List<TicketBatch> getAvailableTickets() {
+		return availableTickets;
+	}
+
+	/**
+	 * @return the availableUsers
+	 */
+	public List<User> getAvailableUsers() {
+		return availableUsers;
+	}
+
 }
