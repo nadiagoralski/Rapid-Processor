@@ -10,7 +10,7 @@ import rapidprocessor.transaction.parser.UserTransactionParser;
 import rapidprocessor.user.User;
 
 public class UserTransactionParserTest {
-    String line = "userSS          SS 001000.00";
+    String line = "01 user2SS         SS 001000.00";
     User ss = new User("userSS         ", "AA", 2000);
     User bs = new User("userBS         ", "AA", 2000);
     List<User> users = new ArrayList<User>();
@@ -24,10 +24,10 @@ public class UserTransactionParserTest {
 
         UserTransaction userTransaction = parser.parse(line, users);
 
-        assertEquals("userSS         ", userTransaction.getUsernameVal());
+        assertEquals("user2SS        ", userTransaction.getUsernameVal());
         assertEquals("SS", userTransaction.getUserTypeVal());
-        assertEquals("110", userTransaction.getCreditVal());
-        assertEquals("04", userTransaction.getTransactionType());
-        assertEquals("04 Test Event Title          userSS          005 110.00", userTransaction.getTransactionString());
+        assertEquals("2000", userTransaction.getCreditVal());
+        assertEquals("01", userTransaction.getTransactionType());
+        assertEquals("01 userSS          SS 001000.00", userTransaction.getTransactionString());
     }
 }

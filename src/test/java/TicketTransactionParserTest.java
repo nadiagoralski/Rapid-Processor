@@ -36,7 +36,8 @@ public class TicketTransactionParserTest {
 
         TicketTransaction ticketTransaction = parser.parse(line, tickets, users);
 
-        assertEquals("Test Event Title         ", "ticketTransaction.getEventTitleVal()");
+        // assertEquals("", "");
+        assertEquals("Test Event Title         ", ticketTransaction.getEventTitleVal());
         assertEquals("userSS         ", ticketTransaction.getSellerNameVal());
         assertEquals("005", ticketTransaction.getQuantityVal());
         assertEquals("110", ticketTransaction.getPriceVal());

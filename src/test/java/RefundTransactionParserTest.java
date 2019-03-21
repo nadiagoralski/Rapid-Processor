@@ -42,20 +42,4 @@ public class RefundTransactionParserTest {
         assertEquals("05", newRefund.getTransactionType());
 
     }
-
-    // @Test
-    // public void testRefundTransactionParseOne() {
-    //     String line = "01 UUUUUUUUUUUUUUU SSSSSSSSSSSSSSS 000010.00";
-    //     User u = new User("UUUUUUUUUUUUUUU", "AA", 10);
-        
-    //     List<TicketBatch> tickets = new ArrayList<>();
-    //     List<User> users = new ArrayList<>();
-    //     TicketBatch ticket = new TicketBatch(ticketTitle, ticketName, ticketQty, ticketPrice);
-
-    //     tickets.add(ticket);
-
-    //     RefundTransactionParser parser = new RefundTransactionParser(line, );
-
-
-    // }
 }
