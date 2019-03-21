@@ -59,7 +59,7 @@ public class UsersUtilTest {
         
         transactionList.add(transaction);
         
-        this.users = uu.updateUsersList(users, transactionList);
+        this.users = uu.updateUserDatabase(users);
         
         uu.updateUserDatabase();
         this.users = uu.getUserData();
