@@ -1,14 +1,20 @@
 c:
 	mvn compile
+i:
+install:
+	mvn package
 
-tFull:
-	java -cp .:junit-4.12.jar:hamcrest-core-1.3.jar org.junit.runner.JUnitCore Full.java
+tFull: tUtils tDB
+
+tUser:
+	mvn -Dtest=*User* test
 
 tUtils:
-	java -cp .:junit-4.12.jar:hamcrest-core-1.3.jar org.junit.runner.JUnitCore Utils.java
+	mvn -Dtest=*UtilTest* test
 
 tDB:
-	java -cp .:junit-4.12.jar:hamcrest-core-1.3.jar org.junit.runner.JUnitCore DB.java
+	mvn -Dtest=*DB* test
+
 
 
 # .PHONY: all clean 

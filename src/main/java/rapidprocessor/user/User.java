@@ -96,6 +96,12 @@ public class User {
         this.userBalance = userBalance;
     }
 
+    public User(String username, String userType, int userBalance) {
+        this.username = username;
+        this.userType = UserType.fromString(userType);
+        this.userBalance = new BigDecimal(userBalance);
+    }
+
     /**
      * Getter for username
      * @return the username
@@ -140,6 +146,14 @@ public class User {
      */
     public void setUserBalance(BigDecimal userBalance) {
         this.userBalance = userBalance;
+    }
+    
+    /**
+     * Setter for user's account balance
+     * @param userBalance
+     */
+    public void setUserBalance(int userBalance) {
+        this.userBalance = new BigDecimal(userBalance);
     }
 
     /**

@@ -8,8 +8,10 @@ import java.io.FileWriter;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.apache.commons.lang3.StringUtils;
+import rapidprocessor.transaction.TicketTransaction;
 import rapidprocessor.transaction.Transaction;
 import rapidprocessor.transaction.UserTransaction;
 import rapidprocessor.user.User;
@@ -19,7 +21,10 @@ import rapidprocessor.user.User;
  * UserUtil class
  * Handles user file processing
  */
-public class UsersUtil {
+public class UserUtil {
+	Logger logger = Logger.getLogger(this.getClass().getName());
+	RapidProperties properties = new RapidProperties();
+
 	/*
 	 * Lists of users to write
 	 */
@@ -34,11 +39,11 @@ public class UsersUtil {
 	/**
 	 * Default constructor for UserUtil
 	 */
-	public UsersUtil() {
+	public UserUtil() {
 	}
 
 	public List<User> getUserData() {
-		System.out.println("reading file...");
+		logger.info("reading file...");
 
 		String fileName = "file/users.db";
 		String line;
@@ -79,7 +84,7 @@ public class UsersUtil {
 	 */
 	public List<User> updateUsersList(List<User> users, List<UserTransaction> transactions) {
 
-
+		
 		// update users
 		// Find all deleted users
 		for (UserTransaction transaction : transactions) {
@@ -101,12 +106,12 @@ public class UsersUtil {
 			if (!deletedUsers.contains(username)) {
 				if (Transaction.TransactionType.CREATE.equals(transaction.getTransactionType())) {
 					// Write new users to file
-					usersToWrite.add(new User(username, transaction.getUserTypeVal(), transaction.getUserBalanceVal()));
+					usersToWrite.add(new User(username, transaction.getUserTypeVal(), transaction.getCreditVal()));
 				} else if (Transaction.TransactionType.ADD_CREDIT.equals(transaction.getTransactionType())) {
 					// Update existing users balance
 					for (User user : users) {
 						if (user.getUsername().equals(username)) {
-							user.setUserBalance(user.getUserBalance().add(transaction.getUserBalanceVal()));
+							user.setUserBalance(user.getUserBalance().add(transaction.getCreditVal()));
 							usersToWrite.add(user);
 						}
 					}

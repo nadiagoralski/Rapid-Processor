@@ -33,7 +33,7 @@ public class TicketBatchTest {
     public void setPrice() {
     }
 
-    @Test
-    public void toString() {
-    }
+//    @Test
+//    public void toString() {
+//    }
 }
