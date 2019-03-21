@@ -3,10 +3,9 @@
 .iml
 
 .idea/
-
 .vs/
 .vscode/
-.settings/
+.settings/**
 */target/**
 .vs/
 .vscode/
