@@ -25,6 +25,7 @@ public class RapidProperties extends Properties {
 
     public RapidProperties() {
         try {
+            // try to read in properties file
             InputStream is = getClass().getResourceAsStream(PROPERTIES_FILE_PATH);
 
             // if no stream open, create a new one
