@@ -1,33 +1,40 @@
-import org.junit.Test;
+import static org.junit.Assert.assertEquals;
 
+import org.junit.Test;
 import rapidprocessor.ticketBatch.TicketBatch;
+import rapidprocessor.transaction.TicketTransaction;
+import rapidprocessor.util.TicketUtil;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TicketUtilTest {
-    List<TicketBatch> tickets = new ArrayList<>();
+    List<TicketBatch> tickets = new ArrayList<TicketBatch>();
 
+    public void setUp() {
+        
+    }
     @Test
     public void getTicketBatchData() {
-        TicketBatch tu = new TicketBatch();
+        TicketUtil tu = new TicketUtil();
 
-        List<TicketBatch>tickets = t.getTicketBatchData();
+        tickets = tu.getTicketBatchData();
 
-        this.tickets = tu.getUserData();
         TicketBatch t = this.tickets.get(0);
 
-        assertEquals("admin", t.getUsername());
-        assertEquals("AA", t.getUserType().getCode());
-        assertEquals("1000.00", t.getUserBalance().toString());
+        assertEquals("admin", t.getEventTitle());
+        assertEquals("AA", t.getSellerName());
+        assertEquals("1000.00", t.getPrice().toString());
     }
 
     @Test
     public void updateTicketBatch() {
         TicketBatch tu = new TicketBatch();
-        List<UserTransaction> transactionList = new ArrayList<>();
+        List<ticketBatch> transactionList = new ArrayList<>();
 
-        this.users = uu.getUserData();
+        this.tickets = tu.getTicketBatchData();
 
-        UserTransaction transaction = new UserTransaction(TransactionType.ADD_CREDIT, users.get(0),
-                new BigDecimal(990));
+        TicketTransaction transaction = new TicketTransaction(TransactionType.BUY, tickets.get(0).eventTitle, tickets.get(0).getUserBalance(), new BigDecimal(990));
 
         transactionList.add(transaction);
 
