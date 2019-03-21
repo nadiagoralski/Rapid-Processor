@@ -1,19 +1,13 @@
 package rapidprocessor.util;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.apache.commons.lang3.StringUtils;
-import rapidprocessor.transaction.TicketTransaction;
-import rapidprocessor.transaction.Transaction;
-import rapidprocessor.transaction.UserTransaction;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import rapidprocessor.user.User;
 
 
@@ -22,19 +16,8 @@ import rapidprocessor.user.User;
  * Handles user file processing
  */
 public class UserUtil {
-	Logger logger = Logger.getLogger(this.getClass().getName());
+	Logger logger = LogManager.getLogger(this.getClass().getName());
 	RapidProperties properties = new RapidProperties();
-
-	/*
-	 * Lists of users to write
-	 */
-	List<User> usersToWrite = new ArrayList<User>();
-
-	/*
-	 * Lists of deleted users
-	 * to ignore when writing new users file
-	 */
-	List<String> deletedUsers = new ArrayList<String>();
 
 	/**
 	 * Default constructor for UserUtil
@@ -42,10 +25,14 @@ public class UserUtil {
 	public UserUtil() {
 	}
 
+	/**
+	 * Reads available users from file
+	 * @return
+	 */
 	public List<User> getUserData() {
 		logger.info("reading file...");
 
-		String fileName = "file/users.db";
+		String fileName = properties.getProperty("user_account_filepath");
 		String line;
 
 		// places all file contents in memory
@@ -53,9 +40,11 @@ public class UserUtil {
 		File file = new File(classLoader.getResource(fileName).getFile());
 		List<User> users = new ArrayList<User>();
 
+		FileReader fr = null;
+		BufferedReader br = null;
 		try {
-			FileReader fr = new FileReader(file);
-			BufferedReader br = new BufferedReader(fr);
+			fr = new FileReader(file);
+			br = new BufferedReader(fr);
 
 			while ((line = br.readLine()) != null) {
 				String username = StringUtils.trimToEmpty(line.substring(0, Constants.MAX_USERNAME_LENGTH));
@@ -70,69 +59,34 @@ public class UserUtil {
 			// TODO: handle exception
 
 			System.out.println(e.toString());
+		} finally {
+			try {
+				// Try to lose any open readers
+				if (br != null) {
+					br.close();
+				}
+
+				if (fr != null) {
+					fr.close();
+				}
+			} catch (IOException ioe) {
+				logger.error(ioe);
+			}
 		}
 
 		return users;
 	}
-
-
-	/**
-	 * 
-	 * Simple function to just update the User list from the
-	 * daily transaction file
-	 * then returns new updated list
-	 */
-	public List<User> updateUsersList(List<User> users, List<UserTransaction> transactions) {
-
-
-		// update users
-		// Find all deleted users
-		for (UserTransaction transaction : transactions) {
-			if (Transaction.TransactionType.DELETE.equals(transaction.getTransactionType())) {
-				String username = transaction.getUsernameVal();
-				User user = users.stream().filter(userObj -> username.equals(userObj.getUsername())).findFirst().orElse(null);
-
-				if (user != null) {
-					// if user found, add to deleted user lis
-					deletedUsers.add(user.getUsername());
-				}
-			}
-		}
-
-		for (UserTransaction transaction : transactions) {
-			String username = transaction.getUsernameVal();
-			// Only update if the user was not deleted
-
-			if (!deletedUsers.contains(username)) {
-				if (Transaction.TransactionType.CREATE.equals(transaction.getTransactionType())) {
-					// Write new users to file
-					usersToWrite.add(new User(username, transaction.getUserTypeVal(), transaction.getCreditVal()));
-				} else if (Transaction.TransactionType.ADD_CREDIT.equals(transaction.getTransactionType())) {
-					// Update existing users balance
-					for (User user : users) {
-						if (user.getUsername().equals(username)) {
-							user.setUserBalance(user.getUserBalance().add(transaction.getCreditVal()));
-							usersToWrite.add(user);
-						}
-					}
-				}
-			}
-		}
-		
-		return users;
-	}
-
-
 
 	/**
 	 * User file writer
 	 *
 	 * Writes out all the updated users to a file.
+	 * @param usersToWrite list of users to write
 	 */
-	public void updateUserDatabase() {
-		System.out.println("updating to file");
+	public void updateUserDatabase(List<User> usersToWrite) {
+		logger.info("updating to file");
 
-		String fileName = "file/user.db";
+		String fileName = properties.getProperty("user_account_filepath");
 		StringBuilder data = new StringBuilder();
 
 		// Get and place all file contents in memory
@@ -143,15 +97,31 @@ public class UserUtil {
 			data.append(user.toString()).append("\n");
 		}
 
+		FileWriter fw = null;
+		BufferedWriter bw = null;
 		try {
-			FileWriter fw = new FileWriter(file);
-			BufferedWriter bw = new BufferedWriter(fw);
+			fw = new FileWriter(file);
+			bw = new BufferedWriter(fw);
 
 			bw.write(data.toString());
 			bw.close();
 
 		} catch (Exception e) {
+			logger.error(e);
 			// TODO: handle exception
+		} finally {
+			try {
+				// Try to lose any open writers
+				if (bw != null) {
+					bw.close();
+				}
+
+				if (fw != null) {
+					fw.close();
+				}
+			} catch (IOException ioe) {
+				logger.error(ioe);
+			}
 		}
 	}
 

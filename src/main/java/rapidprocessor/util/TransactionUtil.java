@@ -24,6 +24,7 @@ import java.util.stream.Collectors;
  */
 public class TransactionUtil {
 	Logger logger = LogManager.getLogger(this.getClass().getName());
+	RapidProperties properties = new RapidProperties();
 	TicketUtil ticketUtil = new TicketUtil();
 	UserUtil userUtil = new UserUtil();
 
@@ -128,7 +129,7 @@ public class TransactionUtil {
 		logger.info("reading file...");
 
 		// Initialize file name and line variables
-		String fileName = "file/transactions.db";
+		String fileName = properties.getProperty("transaction_filepath");
 		String line;
 
 		// Get and place all file contents in memory

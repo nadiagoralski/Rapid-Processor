@@ -10,10 +10,17 @@ import rapidprocessor.util.Constants;
 import java.math.BigDecimal;
 import java.util.List;
 
+/**
+ * TicketTransactionParser
+ *
+ * Parses transaction file line to a TicketTransaction
+ */
 public class TicketTransactionParser implements TransactionParser {
     /**
      * Parses Ticket transaction line
      * @param fileLine XX_EEEEEEEEEEEEEEEEEEEEEEEEE_SSSSSSSSSSSSSSS_TTT_PPPPPP
+     * @param availableTickets list of available tickets
+     * @param availableUsers list of available users
      * @return TicketTransaction
      */
     public TicketTransaction parse(String fileLine, List<TicketBatch> availableTickets, List<User> availableUsers) {

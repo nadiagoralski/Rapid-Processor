@@ -4,15 +4,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import rapidprocessor.ticketBatch.TicketBatch;
-import rapidprocessor.transaction.TicketTransaction;
-import rapidprocessor.transaction.Transaction;
 
-
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileReader;
-import java.io.FileWriter;
+import java.io.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,11 +39,14 @@ public class TicketUtil {
 		File file = new File(classLoader.getResource(fileName).getFile());
 		List<TicketBatch> ticketBatch = new ArrayList<TicketBatch>();
 
+		BufferedReader br = null;
+		FileReader fr = null;
 		try {
-			FileReader fr = new FileReader(file);
-			BufferedReader br = new BufferedReader(fr);
+			fr = new FileReader(file);
+			br = new BufferedReader(fr);
 
 			while ((line = br.readLine()) != null) {
+				// Parse the file line and add TicketBatch object to list of available tickets
 				String eventTitle = StringUtils.trimToEmpty(line.substring(0, Constants.MAX_EVENT_TITLE_LENGTH - 1));
 				String sellerName = StringUtils.trimToEmpty(line.substring(26, 26+Constants.MAX_USERNAME_LENGTH));
 				Integer quantityAvailable = Integer.parseInt(line.substring(42, 45));
@@ -58,25 +54,38 @@ public class TicketUtil {
 				ticketBatch.add(new TicketBatch(eventTitle, sellerName, quantityAvailable, price));
 			}
 
+			// close the buffer
 			br.close();
 
 		} catch (Exception e) {
 			//TODO: update error handling
 			logger.error(e);
-		}
+		} finally {
+			try {
+				// Try to lose any open readers
+				if (br != null) {
+					br.close();
+				}
 
+				if (fr != null) {
+					fr.close();
+				}
+			} catch (IOException ioe) {
+				logger.error(ioe);
+			}
+		}
 		return ticketBatch;
 	}
 
 
-    /**
-     * Ticket Batch file writer
-     *
-     * Writes out all the updated tickets to a file.
-     */
+	/**
+	 * Ticket Batch file writer
+	 *
+	 * Writes out all the updated tickets to a file.
+	 * @param ticketsToWrite list of tickets to write to file
+	 */
 	public void updateTicketBatchDatabase(List<TicketBatch> ticketsToWrite) {
-		System.out.println("updating to file");
-
+		logger.info("updating to file");
 
 		String fileName = properties.getProperty("available_tickets_filepath");
 		StringBuilder data = new StringBuilder();
@@ -88,16 +97,32 @@ public class TicketUtil {
 		for (TicketBatch ticket : ticketsToWrite) {
 			data.append(ticket.toString()).append("\n");
 		}
-
+		BufferedWriter bw = null;
+		FileWriter fw = null;
 		try {
-			FileWriter fw = new FileWriter(file);
-			BufferedWriter bw = new BufferedWriter(fw);
+			fw = new FileWriter(file);
+			bw = new BufferedWriter(fw);
 
+			// write to file
 			bw.write(data.toString());
-			bw.close();
 
+			// close writer
+			bw.close();
 		} catch (Exception e) {
-			// TODO: handle exception
+			logger.error(e);
+		} finally {
+			try {
+				// Try to lose any open writers
+				if (bw != null) {
+					bw.close();
+				}
+
+				if (fw != null) {
+					fw.close();
+				}
+			} catch (IOException ioe) {
+				logger.error(ioe);
+			}
 		}
 	}
 }

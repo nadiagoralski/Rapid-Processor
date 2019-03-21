@@ -1,26 +1,45 @@
 package rapidprocessor.transaction;
 
 import org.apache.commons.lang3.StringUtils;
-import rapidprocessor.user.User;
 import rapidprocessor.util.Constants;
 
 import java.math.BigDecimal;
 
 public class UserTransaction implements Transaction {
+    /*
+     * The username
+     */
     private String usernameVal;
+    /*
+     * The user type code
+     */
     private String userTypeVal;
+    /*
+     * The user's credit value
+     */
     private BigDecimal creditVal;
 
+    /*
+     * Transaction string
+     * formatted XX_UUUUUUUUUUUUUUU_TT_CCCCCCCCC
+     */
     private String transactionString;
+    /*
+     * Transaction type
+     * END_OF_SESSION
+     * CREATE
+     * DELETE
+     * ADD_CREDIT
+     */
     private Transaction.TransactionType transactionType;
 
 
     /**
-     * XX_UUUUUUUUUUUUUUU_TT_CCCCCCCCC
-     * @param transactionType
-     * @param username
-     * @param userType
-     * @param credit
+     * Create new UserTransaction object
+     * @param transactionType the transaction type
+     * @param username the username
+     * @param userType the user type
+     * @param credit the account credit
      */
     public UserTransaction(Transaction.TransactionType transactionType, String username, String userType, BigDecimal credit) {
         this.transactionType = transactionType;
