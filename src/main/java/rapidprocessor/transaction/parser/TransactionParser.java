@@ -15,7 +15,9 @@ public interface TransactionParser {
     /**
      * Parse the file based on transaction type
      * @param fileLine
-     * @return
+     * @param availableTickets list of available tickets
+     * @param availableUsers list of available users
+     * @return Transaction object
      */
     public Transaction parse(String fileLine, List<TicketBatch> availableTickets, List<User> availableUsers);
 

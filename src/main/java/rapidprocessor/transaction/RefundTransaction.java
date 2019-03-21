@@ -6,19 +6,45 @@ import rapidprocessor.util.Constants;
 
 import java.math.BigDecimal;
 
+/**
+ * RefundTransaction
+ * Defines a refund transaction object with accessors to
+ * - buyer username value
+ * - seller username value
+ * - credit value
+ * - transaction string
+ * - transaction type
+ */
 public class RefundTransaction implements Transaction {
+    /*
+     * The buyer's username value
+     */
     private String buyerNameVal;
+    /*
+     * The seller's username value
+     */
     private String sellerNameVal;
+    /*
+     * The refund credit value
+     */
     private BigDecimal creditVal;
 
+    /*
+     * Transaction string
+     * formatted XX_UUUUUUUUUUUUUUU_SSSSSSSSSSSSSSS_CCCCCCCCC
+     */
     private String transactionString;
+    /*
+     * Transaction type
+     * REFUND
+     */
     private TransactionType transactionType = TransactionType.REFUND;
 
     /**
-     * XX_UUUUUUUUUUUUUUU_SSSSSSSSSSSSSSS_CCCCCCCCC
-     * @param buyerUsername
-     * @param sellerUsername
-     * @param amount
+     * Create new RefundTransaction object
+     * @param buyerUsername the buyer's username
+     * @param sellerUsername the seller's username
+     * @param credit the refunded credit
      */
     public RefundTransaction(String buyerUsername, String sellerUsername, BigDecimal credit) {
         this.buyerNameVal = buyerUsername;
@@ -31,14 +57,26 @@ public class RefundTransaction implements Transaction {
                 StringUtils.leftPad(this.creditVal.toString(), 9, "0");
     }
 
+    /**
+     * Get buyer username value
+     * @return the buyer's username
+     */
     public String getBuyerNameVal() {
         return buyerNameVal;
     }
 
+    /**
+     * Get seller username value
+     * @return the seller's username
+     */
     public String getSellerNameVal() {
         return sellerNameVal;
     }
 
+    /**
+     * Get refund credit value
+     * @return the refund credit
+     */
     public BigDecimal getCreditVal() {
         return creditVal;
     }

@@ -1,11 +1,11 @@
-01 admin1          AA 000999.99
-01 admin2          AA 000999.99
-01 admin3          AA 000999.99
-01 admin4          AA 000999.99
-05 userSS          userBS          000005.05
-05 userSS          userBS          005000.00
-05 userSS          userBS          000010.00
 04 Test Event Title1         admin           005 110.00
 04 Test Event Title1         userSS          003 110.00
 04 Test Event Title2         userSS          005 110.00
-04 Test Event Title2         userSS          010 110.00
+04 Test Event Title2         userFS          010 110.00
+00 userBS          BS 000999.99
+05 userSS          userBS          000005.05
+05 userSS          userBS          000050.00
+05 userSS          userBS          000010.00
+00 admin           BS 000999.99
+03 Test Event Title3         userSS          100 010.00
+00 userFS          BS 000999.99

@@ -1,34 +1,57 @@
 package rapidprocessor.transaction;
 
 import org.apache.commons.lang3.StringUtils;
-import rapidprocessor.user.User;
 import rapidprocessor.util.Constants;
 
 import java.math.BigDecimal;
 
 public class UserTransaction implements Transaction {
+    /*
+     * The username
+     */
     private String usernameVal;
+    /*
+     * The user type code
+     */
     private String userTypeVal;
+    /*
+     * The user's credit value
+     */
     private BigDecimal creditVal;
 
+    /*
+     * Transaction string
+     * formatted XX_UUUUUUUUUUUUUUU_TT_CCCCCCCCC
+     */
     private String transactionString;
+    /*
+     * Transaction type
+     * END_OF_SESSION
+     * CREATE
+     * DELETE
+     * ADD_CREDIT
+     */
     private Transaction.TransactionType transactionType;
 
+
     /**
-     * XX_UUUUUUUUUUUUUUU_TT_CCCCCCCCC
-     * @param user
+     * Create new UserTransaction object
+     * @param transactionType the transaction type
+     * @param username the username
+     * @param userType the user type
+     * @param credit the account credit
      */
-    public UserTransaction(Transaction.TransactionType transactionType, User user, BigDecimal credit) {
+    public UserTransaction(Transaction.TransactionType transactionType, String username, String userType, BigDecimal credit) {
         this.transactionType = transactionType;
         // Pad the string values with spaces and numeric values with 0's
-        this.usernameVal = StringUtils.rightPad(user.getUsername(), Constants.MAX_USERNAME_LENGTH);
-        this.userTypeVal = user.getUserType().getCode();
+        this.usernameVal = username;
+        this.userTypeVal = userType;
         this.creditVal = credit;
 
         this.transactionString = this.transactionType.getCode() + " " +
-            this.usernameVal + " " +
-            this.userTypeVal + " " +
-            StringUtils.leftPad(this.creditVal.toString().replace(".", ""), 9, "0");
+                StringUtils.rightPad(this.usernameVal, Constants.MAX_USERNAME_LENGTH, " ") + " " +
+                this.userTypeVal + " " +
+                StringUtils.leftPad(this.creditVal.toString().replace(".", ""), 9, "0");
     }
 
     /**
