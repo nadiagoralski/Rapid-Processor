@@ -59,75 +59,21 @@ public class UserUtil {
 			// TODO: handle exception
 
 			System.out.println(e.toString());
-<<<<<<< HEAD
-		}
-
-		return users;
-	}
-
-
-	/**
-	 * 
-	 * Simple function to just update the User list from the
-	 * daily transaction file
-	 * then returns new updated list
-	 */
-	public List<User> updateUsersList(List<User> users, List<UserTransaction> transactions) {
-
-		
-		// update users
-		// Find all deleted users
-		for (UserTransaction transaction : transactions) {
-			if (Transaction.TransactionType.DELETE.equals(transaction.getTransactionType())) {
-				String username = transaction.getUsernameVal();
-				User user = users.stream().filter(userObj -> username.equals(userObj.getUsername())).findFirst().orElse(null);
-
-				if (user != null) {
-					// if user found, add to deleted user lis
-					deletedUsers.add(user.getUsername());
-=======
 		} finally {
 			try {
 				// Try to lose any open readers
 				if (br != null) {
 					br.close();
->>>>>>> 6c643ba5dabadd36b774ec3e6b88159c8f2690d9
 				}
 
-<<<<<<< HEAD
-		for (UserTransaction transaction : transactions) {
-			String username = transaction.getUsernameVal();
-			// Only update if the user was not deleted
-
-			if (!deletedUsers.contains(username)) {
-				if (Transaction.TransactionType.CREATE.equals(transaction.getTransactionType())) {
-					// Write new users to file
-					users.add(new User(username, transaction.getUserTypeVal(), transaction.getCreditVal()));
-					usersToWrite.add(new User(username, transaction.getUserTypeVal(), transaction.getCreditVal()));
-				} else if (Transaction.TransactionType.ADD_CREDIT.equals(transaction.getTransactionType())) {
-					// Update existing users balance
-					for (User user : users) {
-						if (user.getUsername().equals(username)) {
-							user.setUserBalance(user.getUserBalance().add(transaction.getCreditVal()));
-							users.add(user);
-							usersToWrite.add(user);
-						}
-					}
-=======
 				if (fr != null) {
 					fr.close();
->>>>>>> 6c643ba5dabadd36b774ec3e6b88159c8f2690d9
 				}
 			} catch (IOException ioe) {
 				logger.error(ioe);
 			}
 		}
-<<<<<<< HEAD
-		// not entering loop for some reason
-		// users.get(0).setUserBalance(users.get(0).getUserBalance().add(transactions.get(0).getCreditVal()));
-=======
 
->>>>>>> 6c643ba5dabadd36b774ec3e6b88159c8f2690d9
 		return users;
 	}
 

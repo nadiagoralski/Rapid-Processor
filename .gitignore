@@ -1,19 +1,12 @@
 .classpath
 .project
+.iml
 
 .idea/
-<<<<<<< HEAD
+
 .vs/
 .vscode/
-=======
 .settings/
-target/
+*/target/**
 .vs/
 .vscode/
-<<<<<<< HEAD
->>>>>>> 716998876f9028fb4fb7058a57e96223009b083b
-=======
-
-
-.iml
->>>>>>> 823c0146cf51bac8b4c9dbc60f86f6b2e7419566

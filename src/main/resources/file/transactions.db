@@ -1,13 +1,3 @@
-<<<<<<< HEAD
-01 admin1          AA 000999.99
-01 admin2          AA 000999.99
-01 admin3          AA 000999.99
-01 admin4          AA 000999.99
-05 userSS          userBS          000005.05
-05 userSS          userBS          005000.00
-05 userSS          userBS          000010.00
-=======
->>>>>>> 6c643ba5dabadd36b774ec3e6b88159c8f2690d9
 04 Test Event Title1         admin           005 110.00
 04 Test Event Title1         userSS          003 110.00
 04 Test Event Title2         userSS          005 110.00
