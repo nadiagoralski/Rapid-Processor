@@ -106,19 +106,22 @@ public class UserUtil {
 			if (!deletedUsers.contains(username)) {
 				if (Transaction.TransactionType.CREATE.equals(transaction.getTransactionType())) {
 					// Write new users to file
+					users.add(new User(username, transaction.getUserTypeVal(), transaction.getCreditVal()));
 					usersToWrite.add(new User(username, transaction.getUserTypeVal(), transaction.getCreditVal()));
 				} else if (Transaction.TransactionType.ADD_CREDIT.equals(transaction.getTransactionType())) {
 					// Update existing users balance
 					for (User user : users) {
 						if (user.getUsername().equals(username)) {
 							user.setUserBalance(user.getUserBalance().add(transaction.getCreditVal()));
+							users.add(user);
 							usersToWrite.add(user);
 						}
 					}
 				}
 			}
 		}
-		
+		// not entering loop for some reason
+		// users.get(0).setUserBalance(users.get(0).getUserBalance().add(transactions.get(0).getCreditVal()));
 		return users;
 	}
 
