@@ -27,54 +27,74 @@ public class TransactionUtil {
 	RapidProperties properties = new RapidProperties();
 	TicketUtil ticketUtil = new TicketUtil();
 	UserUtil userUtil = new UserUtil();
+	String currentUserSession = "";
 
-    /**
+    /*
      * Available Tickets
      */
     List<TicketBatch> availableTickets = new ArrayList<TicketBatch>();
-    /**
+    /*
      * Available Users
      */
     List<User> availableUsers = new ArrayList<User>();
+	/*
+	 * List of processed session indexes
+	 */
+	List<Integer> processedSessions = new ArrayList<>();
 
 
-    /**
-     * Transaction Type lists
-     */
-    List<RefundTransaction> refundTransactions = new ArrayList<RefundTransaction>();
-	List<TicketTransaction> ticketTransactions = new ArrayList<TicketTransaction>();
-	List<UserTransaction> userTransactions = new ArrayList<UserTransaction>();
 	/**
 	 * Default constructor for TransactionUtil
-     * Initialize global variables
 	 */
 	public TransactionUtil() {
-        availableTickets = new ArrayList<TicketBatch>();
-        availableUsers = new ArrayList<User>();
-        refundTransactions = new ArrayList<RefundTransaction>();
-        ticketTransactions = new ArrayList<TicketTransaction>();
-        userTransactions = new ArrayList<UserTransaction>();
 	}
 
     /**
      * Reads in Transaction file to initialize transaction util global variables and
-     * @param ticketBatches
-     * @param users
+     * @param ticketBatches list of ticket batches
+     * @param users list of users
      */
 	public void init(List<TicketBatch> ticketBatches, List<User> users) {
+		// set ticket batches and users
 	    this.availableTickets = ticketBatches;
 	    this.availableUsers = users;
+	    // build transaction list
+		List<Transaction> transactions = buildTransactionList();
 
-        List<Transaction> transactions = buildTransactionList();
-        for (Transaction transaction : transactions) {
-            if (Constants.TRANSACTION_REFUND.equals(transaction.getTransactionType().getParseType())) {
-            	processRefundTransaction((RefundTransaction) transaction);
-            } else if (Constants.TRANSACTION_TICKET.equals(transaction.getTransactionType().getParseType())) {
-				processTicketTransaction((TicketTransaction) transaction);
-            } else if (Constants.TRANSACTION_USER.equals(transaction.getTransactionType().getParseType())) {
-				processUserTransaction((UserTransaction) transaction);
-            }
-        }
+
+		// initialize transaction index and transaction to process sub-list
+        int transactionIndex = 0;
+		List<Transaction> transactionsToProcess = new ArrayList<>();
+
+		// loop through each session
+		while (transactionIndex <= transactions.size()) {
+			// find the end of session to determine the current user and sub-list of transaction to process
+			for (Transaction transaction : transactionsToProcess) {
+				if (transaction.getTransactionType().equals(Transaction.TransactionType.END_OF_SESSION)) {
+					// if session hasn't been processed, set username to current user session value
+					currentUserSession = ((UserTransaction) transaction).getUsernameVal();
+
+					// get sub-list of transactions
+					transactionsToProcess = transactions.subList(transactionIndex, transactions.indexOf(transaction));
+					break;
+				}
+			}
+
+			// process transactions
+			for (Transaction transaction : transactionsToProcess) {
+				if (Constants.TRANSACTION_REFUND.equals(transaction.getTransactionType().getParseType())) {
+					processRefundTransaction((RefundTransaction) transaction);
+				} else if (Constants.TRANSACTION_TICKET.equals(transaction.getTransactionType().getParseType())) {
+					processTicketTransaction((TicketTransaction) transaction);
+				} else if (Constants.TRANSACTION_USER.equals(transaction.getTransactionType().getParseType())) {
+					processUserTransaction((UserTransaction) transaction);
+				}
+			}
+
+			// increment transaction index
+			transactionIndex =+ transactionsToProcess.size() + 1;
+		}
+
     }
 
 	/**
@@ -211,14 +231,17 @@ public class TransactionUtil {
 				.findFirst().orElse(null);
 
 		if (Transaction.TransactionType.BUY.equals(ticketTransaction.getTransactionType())) {
-			//TODO: update buyer credit
-			// figure out who bought the ticket
-			// get buyer from available users and update their account balance
-			// User buyer = availableUsers.stream().filter(user -> buyerUsername.equals(user.getUsername())).findFirst().orElse(null);
+			// update buyer credit
+			User buyer = availableUsers.stream().filter(user -> currentUserSession.equals(user.getUsername())).findFirst().orElse(null);
+			buyer.setUserBalance(buyer.getUserBalance().subtract(ticketTransaction.getPriceVal()));
 
 			//update seller credit
 			seller.setUserBalance(seller.getUserBalance().add(ticketTransaction.getPriceVal()));
-			// update seller in available users list
+
+			// update users in available users list
+			availableUsers.stream()
+					.map(user -> currentUserSession.equals(user.getUsername()) ? buyer : user)
+					.collect(Collectors.toList());
 			availableUsers.stream()
 					.map(user -> ticketTransaction.getSellerNameVal().equals(user.getUsername()) ? seller : user)
 					.collect(Collectors.toList());

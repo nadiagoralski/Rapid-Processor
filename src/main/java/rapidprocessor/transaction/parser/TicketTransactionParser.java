@@ -28,15 +28,11 @@ public class TicketTransactionParser implements TransactionParser {
         String eventTitle = StringUtils.trimToEmpty(fileLine.substring(2, 3 + Constants.MAX_EVENT_TITLE_LENGTH));
         String sellerUsername = StringUtils.trimToEmpty(fileLine.substring(29, 30 + Constants.MAX_USERNAME_LENGTH));
 
-
-        // Find TicketBatch object and seller User object
         // set transaction type, quantity, and price
         Transaction.TransactionType transactionType = Transaction.TransactionType.fromCode((fileLine.substring(0, 2)));
-        TicketBatch ticketBatch = availableTickets.stream().filter(ticket -> eventTitle.equals(ticket.getEventTitle())).findFirst().orElse(null);
-        User seller = availableUsers.stream().filter(user -> sellerUsername.equals(user.getUsername())).findFirst().orElse(null);
         Integer quantity = new Integer(fileLine.substring(45, 48));
         BigDecimal price = new BigDecimal(fileLine.substring(49));
 
-        return new TicketTransaction(transactionType, ticketBatch.getEventTitle(), seller.getUsername(), quantity, price);
+        return new TicketTransaction(transactionType, eventTitle, sellerUsername, quantity, price);
     }
 }
