@@ -216,15 +216,18 @@ public class TransactionUtil {
 			// get buyer from available users and update their account balance
 			// User buyer = availableUsers.stream().filter(user -> buyerUsername.equals(user.getUsername())).findFirst().orElse(null);
 
-			// update ticket quantity
-			ticketBatch.setQuantityAvailable(ticketBatch.getQuantityAvailable() - ticketTransaction.getQuantityVal());
-		} else if (Transaction.TransactionType.SELL.equals(ticketTransaction.getTransactionType())) {
 			//update seller credit
 			seller.setUserBalance(seller.getUserBalance().add(ticketTransaction.getPriceVal()));
 			// update seller in available users list
 			availableUsers.stream()
 					.map(user -> ticketTransaction.getSellerNameVal().equals(user.getUsername()) ? seller : user)
 					.collect(Collectors.toList());
+
+			// update ticket quantity
+			ticketBatch.setQuantityAvailable(ticketBatch.getQuantityAvailable() - ticketTransaction.getQuantityVal());
+		} else if (Transaction.TransactionType.SELL.equals(ticketTransaction.getTransactionType())) {
+			// add new ticket batch
+			availableTickets.add(new TicketBatch(ticketTransaction.getEventTitleVal(), ticketTransaction.getSellerNameVal(), ticketTransaction.getQuantityVal(), ticketTransaction.getPriceVal()));
 		}
 
 		// update ticket in available ticket list
