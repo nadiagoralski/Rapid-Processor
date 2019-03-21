@@ -1,40 +1,35 @@
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNotSame;
 
-import java.awt.Transparency;
+import java.util.List;
 
 import org.junit.Test;
 
-import rapidprocessor.transaction.Transaction;
-import rapidprocessor.transaction.parser.TransactionParser;
+import rapidprocessor.ticketBatch.TicketBatch;
+import rapidprocessor.user.User;
+import rapidprocessor.util.TicketUtil;
 import rapidprocessor.util.TransactionUtil;
+import rapidprocessor.util.UserUtil;
 
 public class TransactionUtilTest {
+    static TransactionUtil transactionUtil = null;
+    static UserUtil userUtil = new UserUtil();
+    static TicketUtil ticketUtil = new TicketUtil();
 
-    // @Test
-    // public void init() {
-    // }
-
+    
     @Test
-    public void testGetParser() {
-        TransactionUtil tu = new TransactionUtil();
+    public void init() {
 
-        TransactionParser tp = tu.getParser(Transaction.TransactionType.ADD_CREDIT);
-        String transactionParserClass = "rapidprocessor.transaction.parser.UserTransactionParser";
-        // TransactionParser test = (TransactionParser) Class.forName(transactionParserClass).newInstance();
-        // tp.parse(fileLine, availableTickets, availableUsers);
+        List<TicketBatch> tickets = ticketUtil.getTicketBatchData();
+        List<User> users = userUtil.getUserData();
+        
+        transactionUtil.init(tickets, users);
 
-        assertEquals(tp, "test");
+        assertNotEquals(transactionUtil.getAvailableTickets(), null);
+        assertNotEquals(transactionUtil.getAvailableUsers(), null);
+        
     }
 
-    @Test
-    public void getRefundTransactions() {
-    }
-
-    @Test
-    public void getTicketTransactions() {
-    }
-
-    @Test
-    public void getUserTransactions() {
-    }
+    
 }
