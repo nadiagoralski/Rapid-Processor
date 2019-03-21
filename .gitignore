@@ -1,12 +1,12 @@
 .classpath
-.project
+.factorypath
 .iml
+.project
 
 .idea/
-
 .vs/
 .vscode/
-.settings/
+.settings/**
 */target/**
 .vs/
 .vscode/

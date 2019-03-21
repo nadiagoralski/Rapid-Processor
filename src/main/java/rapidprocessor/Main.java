@@ -26,24 +26,15 @@ public class Main {
         // Read in data from ticket, transaction, and user files
         ticketUtil = new TicketUtil();
         transactionUtil = new TransactionUtil();
-        transactionUtil.init(tickets, users);
         userUtil = new UserUtil();
 
         try {
-//            for (RefundTransaction refundTransaction : transactionUtil.getRefundTransactions()) {
-//                // TODO: implement
-//                // will affect the user file
-//            }
-
+            transactionUtil.init(tickets, users);
             // Process Ticket Transactions
-            //ticketUtil.updateTicketBatch(tickets, transactionUtil.getTicketTransactions());
-
-
-            //ticketUtil.updateTicketBatchDatabase();
+            //ticketUtil.updateTicketBatchDatabase(tickets);
 
             // Process User Transactions
-            //usersUtil.updateUsersList(users, transactionUtil.getUserTransactions());
-            //usersUtil.updateUserDatabase();
+            //usersUtil.updateUserDatabase(users);
 
 
         } catch (Exception e) {
