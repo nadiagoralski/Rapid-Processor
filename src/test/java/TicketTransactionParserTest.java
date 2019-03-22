@@ -47,11 +47,11 @@ public class TicketTransactionParserTest {
         TicketTransaction ticketTransaction = parser.parse(line, tickets, users);
 
         // assertEquals("", "");
-        assertEquals("Test Event Title         ", ticketTransaction.getEventTitleVal());
-        assertEquals("userSS         ", ticketTransaction.getSellerNameVal());
-        assertEquals("005", ticketTransaction.getQuantityVal());
-        assertEquals("110", ticketTransaction.getPriceVal());
-        assertEquals("04", ticketTransaction.getTransactionType());
+        assertEquals("Test Event Title", ticketTransaction.getEventTitleVal());
+        assertEquals("userSS", ticketTransaction.getSellerNameVal());
+        assertEquals("5", ticketTransaction.getQuantityVal().toString());
+        assertEquals("110.00", ticketTransaction.getPriceVal().toString());
+        assertEquals("BUY", ticketTransaction.getTransactionType().toString());
         assertEquals("04 Test Event Title          userSS          005 110.00", ticketTransaction.getTransactionString());
     }
 }
