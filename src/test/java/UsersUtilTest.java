@@ -36,13 +36,13 @@ public class UsersUtilTest {
         List<UserTransaction> transactionList = new ArrayList<>();
         
         this.users = uu.getUserData();
+//        // TODO: update below
+//        UserTransaction transaction = new UserTransaction(TransactionType.ADD_CREDIT, users.get(0), new BigDecimal(990));
+//
+//
+//        transactionList.add(transaction);
         
-        UserTransaction transaction = new UserTransaction(TransactionType.ADD_CREDIT, users.get(0), new BigDecimal(990));
-        
-        
-        transactionList.add(transaction);
-        
-        this.users = uu.updateUsersList(users, transactionList);
+        //this.users = uu.updateUsersList(users, transactionList);
         assertEquals("1990.00", users.get(0).getUserBalance().toString());
     }
 
@@ -53,15 +53,14 @@ public class UsersUtilTest {
         List<UserTransaction> transactionList = new ArrayList<>();
 
         this.users = uu.getUserData();
+//        // TODO: update below
+//        UserTransaction transaction = new UserTransaction(TransactionType.ADD_CREDIT, users.get(0), new BigDecimal(990));
+//
+//        transactionList.add(transaction);
 
-        UserTransaction transaction = new UserTransaction(TransactionType.ADD_CREDIT, users.get(0),
-                new BigDecimal(990));
+        //this.users = uu.updateUsersList(users, transactionList);
         
-        transactionList.add(transaction);
-        
-        this.users = uu.updateUserDatabase(users);
-        
-        uu.updateUserDatabase();
+        uu.updateUserDatabase(this.users);
         this.users = uu.getUserData();
 
         assertNotEquals("1000.00", users.get(0).getUserBalance().toString());

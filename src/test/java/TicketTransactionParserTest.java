@@ -3,6 +3,7 @@ import static org.junit.Assert.assertEquals;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -13,11 +14,20 @@ import rapidprocessor.user.User;
 
 public class TicketTransactionParserTest {
     
-    String line = "04 Test Event Title          userSS          005 110.00";
-    User ss = new User("userSS         ", "AA", 2000);
-    User bs = new User("userBS         ", "AA", 2000);
-    List<User> users = new ArrayList<User>();
-    List<TicketBatch> tickets = new ArrayList<TicketBatch>();
+    String line;
+    User ss;
+    User bs;
+    List<User> users;
+    List<TicketBatch> tickets;
+
+    @Before
+    public void setUp() throws Exception {
+        line = "04 Test Event Title          userSS          005 110.00";
+        ss = new User("userSS         ", "AA", 2000);
+        bs = new User("userBS         ", "AA", 2000);
+        users = new ArrayList<User>();
+        tickets = new ArrayList<TicketBatch>();
+    }
 
     @Test
     public void testTicketTransactionParser() {
@@ -37,11 +47,11 @@ public class TicketTransactionParserTest {
         TicketTransaction ticketTransaction = parser.parse(line, tickets, users);
 
         // assertEquals("", "");
-        assertEquals("Test Event Title         ", ticketTransaction.getEventTitleVal());
-        assertEquals("userSS         ", ticketTransaction.getSellerNameVal());
-        assertEquals("005", ticketTransaction.getQuantityVal());
-        assertEquals("110", ticketTransaction.getPriceVal());
-        assertEquals("04", ticketTransaction.getTransactionType());
+        assertEquals("Test Event Title", ticketTransaction.getEventTitleVal());
+        assertEquals("userSS", ticketTransaction.getSellerNameVal());
+        assertEquals("5", ticketTransaction.getQuantityVal().toString());
+        assertEquals("110.00", ticketTransaction.getPriceVal().toString());
+        assertEquals("BUY", ticketTransaction.getTransactionType().toString());
         assertEquals("04 Test Event Title          userSS          005 110.00", ticketTransaction.getTransactionString());
     }
 }
