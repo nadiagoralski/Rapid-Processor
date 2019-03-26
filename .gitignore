@@ -7,6 +7,6 @@
 .vs/
 .vscode/
 .settings/**
-*/target/**
+target/**
 .vs/
 .vscode/
