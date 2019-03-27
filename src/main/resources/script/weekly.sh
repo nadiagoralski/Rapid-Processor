@@ -1,8 +1,8 @@
 #! /bin/bash
 
 #reset user and tickets files
-cp ../printout/currentaccounts0.txt currentaccounts.txt;
-cp ../printout/avialabletickets0.txt avialabletickets.txt;
+cp ../file/out/0users.db users.db;
+cp ../file/out/0tickets.db tickets.db;
 
 #run 5 days
 for i in (1..5); do
