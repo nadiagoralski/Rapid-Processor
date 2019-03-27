@@ -35,16 +35,32 @@ public class TicketUtilTest {
     @Test
     public void updateTicketBatch() {
         //Get ticket batch data
-        TicketBatch tu = new TicketBatch();
-        List<TicketBatch> transactionList = new ArrayList<>();
+        TicketUtil tu = new TicketUtil();
+        List<Transaction> transactionList = new ArrayList<>();
 
-        //this.tickets = tu.getTicketBatchData();
-        //TicketTransaction transaction = new TicketTransaction(Transaction.TransactionType.BUY, tickets.get(0).eventTitle, tickets.get(0).getUserBalance(), new BigDecimal(990));
+        this.tickets = tu.getTicketBatchData();
+        TicketBatch aTicket = tickets.get(0);
+        int totalBought = 5;
 
-        //update ticket batch
-        //transactionList.add(transaction);
-        //this.tickets = tu.updateUsersList(tickets, transactionList);
-        //assertEquals("1990.00", tickets.get(0).getPrice().toString());
+        TicketTransaction transaction = new TicketTransaction(Transaction.TransactionType.BUY,
+                aTicket.getEventTitle(),
+                aTicket.getSellerName(),
+                totalBought,
+                new BigDecimal(990));
+
+        // update ticket in list
+        tickets.get(0).setQuantityAvailable(aTicket.getQuantityAvailable() - totalBought);
+
+        //update ticket batch file
+        transactionList.add(transaction);
+        tu.updateTicketBatchDatabase(tickets);
+
+        // reread list
+        this.tickets = tu.getTicketBatchData();
+        TicketBatch updatedTicket = tickets.get(0);
+
+        // check if the ticket quantity was updated
+        assertNotEquals(aTicket.getQuantityAvailable(), updatedTicket.getQuantityAvailable());
 
 
     }
