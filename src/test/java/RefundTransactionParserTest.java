@@ -18,15 +18,17 @@ public class RefundTransactionParserTest {
     User bs = new User("userBS         ", "AA", 10);
     List<User> users = new ArrayList<User>();
     List<TicketBatch> tickets = new ArrayList<TicketBatch>();
-    String ticketTitle = "title", SellerName = "userSS         ";
-    Integer ticketQty = 10, ticketPrice = 10;
     
     
-    // NOTE: I DON'T FUCKING KNOW
     @Test
     public void testRefundTransactionParse() {
+        
+        String ticketTitle = "title";
+        String sellerName = "userSS         ";
+        Integer ticketQty = 10;
+        Integer ticketPrice = 10;
 
-        TicketBatch ticket = new TicketBatch(ticketTitle, SellerName, ticketQty, ticketPrice);
+        TicketBatch ticket = new TicketBatch(ticketTitle, sellerName, ticketQty, ticketPrice);
 
         tickets.add(ticket);
 

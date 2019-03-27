@@ -51,7 +51,7 @@ public class UserTransaction implements Transaction {
         this.transactionString = this.transactionType.getCode() + " " +
                 StringUtils.rightPad(this.usernameVal, Constants.MAX_USERNAME_LENGTH, " ") + " " +
                 this.userTypeVal + " " +
-                StringUtils.leftPad(this.creditVal.toString().replace(".", ""), 9, "0");
+                StringUtils.leftPad(this.creditVal.toString(), 9, "0");
     }
 
     /**

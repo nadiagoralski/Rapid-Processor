@@ -10,8 +10,8 @@ import rapidprocessor.util.TicketUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+// failling because the getTicketBatchData() is returning an empty List
 public class TicketUtilTest {
-    List<TicketBatch> tickets = new ArrayList<TicketBatch>();
     
     @Before
     public void setUp() {
@@ -21,16 +21,16 @@ public class TicketUtilTest {
     public void getTicketBatchData() {
         TicketUtil tu = new TicketUtil();
 
-        tickets = tu.getTicketBatchData();
+        List<TicketBatch> tickets = tu.getTicketBatchData();
 
-        TicketBatch t = this.tickets.get(0);
-
-        t.getPrice();
+        TicketBatch t = tickets.get(0);
+        
         assertEquals("admin", t.getEventTitle());
         assertEquals("AA", t.getSellerName());
         assertEquals("1000.00", t.getPrice().toString());
     }
 
+    
     @Test
     public void updateTicketBatchDatabase() {
         
@@ -38,11 +38,16 @@ public class TicketUtilTest {
         // Gets tickets
         TicketUtil tu = new TicketUtil();
         List<TicketBatch> TicketBatchList = tu.getTicketBatchData();
-        // assertEquals("expected", TicketBatchList.get(0));
+
+        Integer ticketCount = TicketBatchList.get(0).getQuantityAvailable();
+        
+        TicketBatchList.get(0).setQuantityAvailable(ticketCount - 1);
         
         // edit ticket
         TicketBatch ticketBefore = new TicketBatch(TicketBatchList.get(0));
-        TicketBatchList.get(0).setEventTitle("Nick is Back!");
+        
+
+
 
         // Updates the TicketBatch database
         tu.updateTicketBatchDatabase(TicketBatchList);

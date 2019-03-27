@@ -38,7 +38,7 @@ public class TicketTransaction implements Transaction {
 
     /**
      * Create new TicketTransaction object
-     * XX_EEEEEEEEEEEEEEEEEEE_SSSSSSSSSSSSS_TTT_PPPPPP
+     * XX_EEEEEEEEEEEEEEEEEEEEEEEEE_SSSSSSSSSSSSSSS_TTT_PPPPPP
      * @param transactionType the transaction type
      * @param eventTitle the event title
      * @param sellerName the seller's username
@@ -55,7 +55,8 @@ public class TicketTransaction implements Transaction {
         this.transactionString = this.transactionType.getCode() + " " +
                 StringUtils.rightPad(this.eventTitleVal, Constants.MAX_EVENT_TITLE_LENGTH) + " " +
                 StringUtils.rightPad(this.sellerNameVal, Constants.MAX_USERNAME_LENGTH) + " " +
-                StringUtils.leftPad(this.quantityVal.toString(), 3) + " ";
+                StringUtils.leftPad(this.quantityVal.toString(), 3, "0") + " " +
+                StringUtils.leftPad(this.priceVal.toString(), 6, "0");
     }
 
     /**

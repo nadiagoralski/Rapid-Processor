@@ -15,6 +15,8 @@ public class TransactionUtilTest {
     static UserUtil userUtil = new UserUtil();
     static TicketUtil ticketUtil = new TicketUtil();
 
+
+    // test is failing because the tickets getTicketBatchData() isn't returning anything.
     @Test
     public void init() {
 

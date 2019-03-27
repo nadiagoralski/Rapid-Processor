@@ -26,8 +26,9 @@ public class UserTransactionParser implements TransactionParser {
         // Get string values
         String transactionCode = fileLine.substring(0, 2);
         String username = StringUtils.trimToEmpty(fileLine.substring(3, 18));
-        String userTypeCode = fileLine.substring(18, 20);
-        BigDecimal userBalance = new BigDecimal(fileLine.substring(21).trim());
+        String userTypeCode = fileLine.substring(19, 21);
+        // String userTypeCode = fileLine.substring(18, 20);
+        BigDecimal userBalance = new BigDecimal(fileLine.substring(22).trim());
 
         // Find user objects matching username, get transaction type and credit value
         Transaction.TransactionType transactionType = Transaction.TransactionType.fromCode(transactionCode);
