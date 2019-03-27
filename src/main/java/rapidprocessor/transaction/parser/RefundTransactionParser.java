@@ -16,6 +16,8 @@ import java.util.List;
  */
 public class RefundTransactionParser implements TransactionParser {
 
+    public RefundTransactionParser() {
+    }
     /**
      * Parse the refund transaction from the the file
      * @param fileLine formatted XX_UUUUUUUUUUUUUUU_SSSSSSSSSSSSSSS_CCCCCCCCC

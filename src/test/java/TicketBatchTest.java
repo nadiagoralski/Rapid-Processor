@@ -55,7 +55,7 @@ public class TicketBatchTest {
 
         TicketBatch ticket = new TicketBatch(title, name, qty, price);
 
-        ticket.setQuantityAvailable(10);
+        ticket.setQuantityAvailable(11);
         assertEquals(ticket.getQuantityAvailable().toString(),"11");
     }
 
@@ -80,7 +80,6 @@ public class TicketBatchTest {
 
         TicketBatch ticket = new TicketBatch(title, name, qty, price);
 
-        ticket.setEventTitle("eventTitle");
-        assertEquals(ticket.getEventTitle(), "eventTitle");
+        assertEquals(ticket.toString(), "title                     name            000000010 010.00");
     }
 }

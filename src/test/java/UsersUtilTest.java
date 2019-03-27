@@ -31,22 +31,6 @@ public class UsersUtilTest {
     }
 
     @Test
-    public void updateUsersList() {
-        UserUtil uu = new UserUtil();
-        List<UserTransaction> transactionList = new ArrayList<>();
-        
-        this.users = uu.getUserData();
-        
-        UserTransaction transaction = new UserTransaction(TransactionType.ADD_CREDIT, users.get(0), new BigDecimal(990));
-        
-        
-        transactionList.add(transaction);
-        
-        this.users = uu.updateUsersList(users, transactionList);
-        assertEquals("1990.00", users.get(0).getUserBalance().toString());
-    }
-
-    @Test
     public void updateUserDatabase() {
 
         UserUtil uu = new UserUtil();

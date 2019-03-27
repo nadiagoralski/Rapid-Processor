@@ -1,12 +1,17 @@
+#hidden files
 .classpath
 .factorypath
 .iml
 .project
 
+# hidden folders
 .idea/
 .vs/
 .vscode/
+
+# folders
 .settings/**
-*/target/**
-.vs/
+!target/*
+!target/
+bin/
 .vscode/

@@ -56,6 +56,16 @@ public class RefundTransaction implements Transaction {
                 StringUtils.rightPad(this.sellerNameVal, Constants.MAX_USERNAME_LENGTH) + " " +
                 StringUtils.leftPad(this.creditVal.toString(), 9, "0");
     }
+    public RefundTransaction(String buyerUsername, String sellerUsername, Integer credit) {
+        this.buyerNameVal = buyerUsername;
+        this.sellerNameVal = sellerUsername;
+        this.creditVal = new BigDecimal(credit).setScale(2, BigDecimal.ROUND_HALF_UP);
+
+        transactionString = transactionType.getCode() + " " +
+                StringUtils.rightPad(this.buyerNameVal, Constants.MAX_USERNAME_LENGTH) + " " +
+                StringUtils.rightPad(this.sellerNameVal, Constants.MAX_USERNAME_LENGTH) + " " +
+                StringUtils.leftPad(this.creditVal.toString(), 9, "0");
+    }
 
     /**
      * Get buyer username value
