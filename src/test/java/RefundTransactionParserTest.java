@@ -25,8 +25,8 @@ public class RefundTransactionParserTest {
     public void testRefundTransactionParse() {
         
         String ticketTitle = "title", SellerName = "userSS         ";
-        Integer ticketQty = new Integer(10);
-        Integer ticketPrice = new Integer(10);
+        Integer ticketQty = 10;
+        Integer ticketPrice = 10;
 
         TicketBatch ticket = new TicketBatch(ticketTitle, SellerName, ticketQty, ticketPrice);
 
