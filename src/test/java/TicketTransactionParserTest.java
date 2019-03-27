@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import rapidprocessor.ticketBatch.TicketBatch;
 import rapidprocessor.transaction.TicketTransaction;

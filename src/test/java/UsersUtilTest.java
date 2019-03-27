@@ -1,16 +1,11 @@
-import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.Test;
 
-import rapidprocessor.transaction.Transaction;
-import rapidprocessor.transaction.UserTransaction;
-import rapidprocessor.transaction.Transaction.TransactionType;
 import rapidprocessor.user.User;
 import rapidprocessor.util.UserUtil;
 

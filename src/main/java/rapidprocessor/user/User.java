@@ -78,7 +78,6 @@ public class User {
      */
     private BigDecimal userBalance;
 
-    private User user;
 
     /**
      * User default constructor
@@ -105,7 +104,9 @@ public class User {
     }
 
     public User(User user) {
-        this.user = user;
+        this.username = user.getUsername();
+        this.userType = user.getUserType();
+        this.userBalance = user.getUserBalance();
     }
 
     /**
