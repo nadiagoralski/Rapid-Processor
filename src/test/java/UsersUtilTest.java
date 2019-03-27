@@ -17,8 +17,11 @@ public class UsersUtilTest {
     public void getUserData() {
         UserUtil uu = new UserUtil();
 
-        this.users = uu.getUserData();
-        User u = this.users.get(0);
+        List<User> userList = uu.getUserData();
+        User u = new User(userList.get(0));
+
+        //this.users = uu.getUserData();
+        //User u = this.users.get(0);
 
         assertEquals("admin", u.getUsername());
         assertEquals("AA", u.getUserType().getCode());
