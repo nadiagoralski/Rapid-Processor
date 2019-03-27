@@ -92,19 +92,19 @@ public class User {
      * @param userBalance
      */
     public User(String username, String userType, BigDecimal userBalance) {
-        this.username = username;
+        this.username = StringUtils.trimToEmpty(username);
         this.userType = UserType.fromString(userType);
         this.userBalance = userBalance;
     }
 
     public User(String username, String userType, int userBalance) {
-        this.username = username;
+        this.username = StringUtils.trimToEmpty(username);
         this.userType = UserType.fromString(userType);
         this.userBalance = new BigDecimal(userBalance);
     }
 
     public User(User user) {
-        this.username = user.getUsername();
+        this.username = StringUtils.trimToEmpty(user.getUsername());
         this.userType = user.getUserType();
         this.userBalance = user.getUserBalance();
     }
