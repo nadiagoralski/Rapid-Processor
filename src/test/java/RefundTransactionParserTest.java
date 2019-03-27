@@ -22,10 +22,12 @@ public class RefundTransactionParserTest {
     
 
     @Test
+    //Not working
     public void testRefundTransactionParse() {
         
         String ticketTitle = "title", SellerName = "userSS         ";
-        Integer ticketQty = 10, ticketPrice = 10;
+        Integer ticketQty = new Integer(10);
+        Integer ticketPrice = new Integer(10);
 
         TicketBatch ticket = new TicketBatch(ticketTitle, SellerName, ticketQty, ticketPrice);
 

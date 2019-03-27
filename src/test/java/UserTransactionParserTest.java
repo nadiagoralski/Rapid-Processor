@@ -18,6 +18,7 @@ public class UserTransactionParserTest {
     List<TicketBatch> tickets = new ArrayList<>();
 
     @Test
+    //Not working
     public void testUserTransactionParser() {
         users.add(ss);
         users.add(bs);

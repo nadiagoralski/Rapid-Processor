@@ -14,12 +14,13 @@ public class UsersUtilTest {
     List<User> users = new ArrayList<>();
 
     @Test
+    //Not working
     public void getUserData() {
         UserUtil uu = new UserUtil();
 
         this.users = uu.getUserData();
         User u = this.users.get(0);
-        
+
         assertEquals("admin", u.getUsername());
         assertEquals("AA", u.getUserType().getCode());
         assertEquals("1000.00", u.getUserBalance().toString());
@@ -41,7 +42,6 @@ public class UsersUtilTest {
         User ub5 = userList2.get(0);
 
         assertNotEquals(ub4.getUsername(), ub5.getUsername());
-
 
     }
 }
