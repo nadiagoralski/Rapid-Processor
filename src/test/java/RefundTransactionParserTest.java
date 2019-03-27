@@ -25,7 +25,7 @@ public class RefundTransactionParserTest {
     // NOTE: I DON'T FUCKING KNOW
     @Test
     public void testRefundTransactionParse() {
-        
+
         TicketBatch ticket = new TicketBatch(ticketTitle, SellerName, ticketQty, ticketPrice);
 
         tickets.add(ticket);

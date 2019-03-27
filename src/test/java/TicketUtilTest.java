@@ -25,6 +25,7 @@ public class TicketUtilTest {
 
         TicketBatch t = this.tickets.get(0);
 
+        t.getPrice();
         assertEquals("admin", t.getEventTitle());
         assertEquals("AA", t.getSellerName());
         assertEquals("1000.00", t.getPrice().toString());
@@ -37,7 +38,7 @@ public class TicketUtilTest {
         // Gets tickets
         TicketUtil tu = new TicketUtil();
         List<TicketBatch> TicketBatchList = tu.getTicketBatchData();
-        assertEquals("expected", TicketBatchList.get(0));
+        // assertEquals("expected", TicketBatchList.get(0));
         
         // edit ticket
         TicketBatch ticketBefore = new TicketBatch(TicketBatchList.get(0));
@@ -49,6 +50,6 @@ public class TicketUtilTest {
         
         TicketBatch ticketAfter = TicketBatchList2.get(0);
 
-        // assertNotEquals(ticketBefore.getEventTitle(), ticketAfter.getEventTitle());
+        assertNotEquals(ticketBefore.getEventTitle(), ticketAfter.getEventTitle());
     }
 }

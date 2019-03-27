@@ -10,13 +10,10 @@ import rapidprocessor.util.RapidProperties;
  */
 public class RapidPropertiesTest {
 
-	
-
 	@Test
 	public void testRapidProperties() {
 
 		RapidProperties rp = new RapidProperties();
-
 		String filePath = rp.getProperty("available_tickets_filepath");
 		String filePath2 = rp.getProperty("user_account_filepath");
 		String filePath3 = rp.getProperty("transaction_filepath");
