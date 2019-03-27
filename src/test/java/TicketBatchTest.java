@@ -56,7 +56,7 @@ public class TicketBatchTest {
         TicketBatch ticket = new TicketBatch(title, name, qty, price);
 
         ticket.setQuantityAvailable(10);
-        assertEquals(ticket.getQuantityAvailable().toString(),"11");
+        assertEquals(ticket.getQuantityAvailable().toString(),"10");
     }
 
     @Test
