@@ -8,13 +8,13 @@ else
 	for j in (1..3); do #run 3 sessions
 		./ticket-seller < ../input/in$i"_"$j.txt >> /dev/null; #to save output space
 	done #merge
-	cat session*.txt > ../printout/merge$i.txt; #save merged file
+	cat session*.txt > ../file/out/$imerge.txt; #saves the merged file
 	rm session*;
-	cat ../printout/merge$i.txt > transactions.txt; #overwrite transactoin file
-	java Backend #run backend
+	cat ../file/out/$imerge.txt > transactions.txt; #overwrite transaction file
+	java Backend #runs the backend
 	#save the tickets and accounts files
-	cp currentaccounts.txt ../printout/currentaccounts$1.txt;
-	cp avialabletickets.txt ../printout/avialabletickets$1.txt;
+	cp users.db ../file/out/$1users.db;
+	cp tickets.db ../file/printout/$1tickets.db;
 
 	echo "Day: "$i" complete";
 

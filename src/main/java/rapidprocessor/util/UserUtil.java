@@ -56,9 +56,7 @@ public class UserUtil {
 			br.close();
 
 		} catch (Exception e) {
-			// TODO: handle exception
-
-			System.out.println(e.toString());
+			logger.error(e);
 		} finally {
 			try {
 				// Try to lose any open readers
@@ -108,7 +106,6 @@ public class UserUtil {
 
 		} catch (Exception e) {
 			logger.error(e);
-			// TODO: handle exception
 		} finally {
 			try {
 				// Try to lose any open writers

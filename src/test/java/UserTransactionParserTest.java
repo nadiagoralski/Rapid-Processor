@@ -15,6 +15,7 @@ public class UserTransactionParserTest {
     User ss = new User("userSS         ", "AA", 2000);
     User bs = new User("userBS         ", "AA", 2000);
     List<User> users = new ArrayList<User>();
+    List<TicketBatch> tickets = new ArrayList<>();
 
     @Test
     public void testUserTransactionParser() {
@@ -22,8 +23,7 @@ public class UserTransactionParserTest {
         users.add(bs);
 
         UserTransactionParser parser = new UserTransactionParser();
-        //TODO: create tickets list to test
-        UserTransaction userTransaction = parser.parse(line, new ArrayList<TicketBatch>(), users);
+        UserTransaction userTransaction = parser.parse(line, tickets, users);
 
         assertEquals("user2SS        ", userTransaction.getUsernameVal());
         assertEquals("SS", userTransaction.getUserTypeVal());

@@ -1,7 +1,6 @@
 package rapidprocessor.transaction;
 
 import org.apache.commons.lang3.StringUtils;
-import rapidprocessor.user.User;
 import rapidprocessor.util.Constants;
 
 import java.math.BigDecimal;

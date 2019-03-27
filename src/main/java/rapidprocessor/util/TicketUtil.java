@@ -57,7 +57,6 @@ public class TicketUtil {
 			br.close();
 
 		} catch (Exception e) {
-			//TODO: update error handling
 			logger.error(e);
 		} finally {
 			try {

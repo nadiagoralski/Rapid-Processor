@@ -1,14 +1,10 @@
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotSame;
 
 import java.util.List;
 
 import org.junit.Test;
 
-import rapidprocessor.ticket.Ticket;
 import rapidprocessor.ticketBatch.TicketBatch;
-import rapidprocessor.transaction.parser.TransactionParser;
 import rapidprocessor.user.User;
 import rapidprocessor.util.TicketUtil;
 import rapidprocessor.util.TransactionUtil;
