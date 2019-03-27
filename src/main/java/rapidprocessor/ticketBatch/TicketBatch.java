@@ -33,6 +33,11 @@ public class TicketBatch {
      */
     private BigDecimal price = BigDecimal.ZERO;
 
+    /*
+     * Price of single ticket
+     */
+    private TicketBatch ticket;
+
     /**
      * TicketBatch default constructor
      */
@@ -65,7 +70,11 @@ public class TicketBatch {
         this.price = price;
     }
 
-    /**
+    public TicketBatch(TicketBatch ticketBatch) {
+        this.ticket = ticketBatch;
+	}
+
+	/**
      * Getter for event title
      * @return event title
      */

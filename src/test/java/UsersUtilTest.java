@@ -32,21 +32,18 @@ public class UsersUtilTest {
 
     @Test
     public void updateUserDatabase() {
-
         //Gets users
         UserUtil uu = new UserUtil();
 
         List<User> userList = uu.getUserData();
-        User ub4 = new User(userList.get(0));
+        User userBefore = new User(userList.get(0));
         userList.get(0).setUsername("Nick");
 
         //Updates the user database
         uu.updateUserDatabase(userList);
         List<User> userList2 = uu.getUserData();
-        User ub5 = userList2.get(0);
+        User userAfter = userList2.get(0);
 
-        assertNotEquals(ub4.getUsername(), ub5.getUsername());
-
-
+        assertNotEquals(userBefore.getUsername(), userAfter.getUsername());
     }
 }
