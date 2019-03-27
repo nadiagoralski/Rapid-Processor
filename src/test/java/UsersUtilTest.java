@@ -33,20 +33,20 @@ public class UsersUtilTest {
     @Test
     public void updateUserDatabase() {
 
+        //Gets users
         UserUtil uu = new UserUtil();
-        List<UserTransaction> transactionList = new ArrayList<>();
 
-        this.users = uu.getUserData();
+        List<User> userList = uu.getUserData();
+        User ub4 = new User(userList.get(0));
+        userList.get(0).setUsername("Nick");
 
-        UserTransaction transaction = new UserTransaction(TransactionType.ADD_CREDIT, users.get(0), new BigDecimal(990));
-        
-        transactionList.add(transaction);
-        
-        this.users = uu.updateUsersList(users, transactionList);
-        
-        uu.updateUserDatabase();
-        this.users = uu.getUserData();
+        //Updates the user database
+        uu.updateUserDatabase(userList);
+        List<User> userList2 = uu.getUserData();
+        User ub5 = userList2.get(0);
 
-        assertNotEquals("1000.00", users.get(0).getUserBalance().toString());
+        assertNotEquals(ub4.getUsername(), ub5.getUsername());
+
+
     }
 }

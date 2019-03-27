@@ -31,27 +31,8 @@ public class TicketUtilTest {
     }
 
     @Test
-    public void updateTicketBatch() {
-        // TicketBatch tu = new TicketBatch();
-        // List<ticketBatch> transactionList = new ArrayList<>();
-
-        // this.tickets = tu.getTicketBatchData();
-
-        // TicketTransaction transaction = new TicketTransaction(TransactionType.BUY, tickets.get(0).eventTitle, tickets.get(0).getUserBalance(), new BigDecimal(990));
-
-        // transactionList.add(transaction);
-
-        // // this.tickets = tu.updateUsersList(tickets, transactionList);
-        // assertEquals("1990.00", tickets.get(0).getPrice().toString());
-    }
-
-    @Test
     public void updateTicketBatchDatabase() {
-
-        TicketBatch tu = new TicketBatch();
-        List<TicketTransaction> transactionList = new ArrayList<>();
-
-        tu.updateTicketBatchDatabase();
+        
 
         assertNotEquals("","");
     }

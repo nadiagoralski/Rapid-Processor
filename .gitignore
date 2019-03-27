@@ -11,7 +11,6 @@
 
 # folders
 .settings/**
-!target/*
-!target/
-bin/
+target/**
+.vs/
 .vscode/

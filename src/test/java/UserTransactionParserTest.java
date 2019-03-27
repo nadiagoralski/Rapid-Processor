@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import rapidprocessor.ticketBatch.TicketBatch;
 import rapidprocessor.transaction.UserTransaction;
 import rapidprocessor.transaction.parser.UserTransactionParser;
 import rapidprocessor.user.User;
@@ -21,8 +22,8 @@ public class UserTransactionParserTest {
         users.add(bs);
 
         UserTransactionParser parser = new UserTransactionParser();
-
-        UserTransaction userTransaction = parser.parse(line, users);
+        //TODO: create tickets list to test
+        UserTransaction userTransaction = parser.parse(line, new ArrayList<TicketBatch>(), users);
 
         assertEquals("user2SS        ", userTransaction.getUsernameVal());
         assertEquals("SS", userTransaction.getUserTypeVal());
