@@ -45,7 +45,7 @@ public class TicketUtil {
 			fr = new FileReader(file);
 			br = new BufferedReader(fr);
 
-			while ((line = br.readLine()) != null) {
+			while ((line = br.readLine()) != null && !br.readLine().equals(Constants.END_OF_FILE_LINE)) {
 				// Parse the file line and add TicketBatch object to list of available tickets
 				String eventTitle = StringUtils.trimToEmpty(line.substring(0, Constants.MAX_EVENT_TITLE_LENGTH - 1));
 				String sellerName = StringUtils.trimToEmpty(line.substring(26, 26+Constants.MAX_USERNAME_LENGTH));
