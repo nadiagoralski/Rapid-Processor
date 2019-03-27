@@ -24,11 +24,12 @@ public class RefundTransactionParserTest {
     @Test
     public void testRefundTransactionParse() {
         
-        String ticketTitle = "title", SellerName = "userSS         ";
+        String ticketTitle = "title";
+        String sellerName = "userSS         ";
         Integer ticketQty = 10;
         Integer ticketPrice = 10;
 
-        TicketBatch ticket = new TicketBatch(ticketTitle, SellerName, ticketQty, ticketPrice);
+        TicketBatch ticket = new TicketBatch(ticketTitle, sellerName, ticketQty, ticketPrice);
 
         tickets.add(ticket);
 
@@ -40,7 +41,7 @@ public class RefundTransactionParserTest {
         RefundTransaction newRefund = parser.parse(line, tickets, users);
 
         assertEquals("05 userSS          userBS          000050.00", newRefund.getTransactionString());
-        assertEquals("05", newRefund.getTransactionType());
+        assertEquals("05", newRefund.getTransactionType().getCode());
 
     }
 }
