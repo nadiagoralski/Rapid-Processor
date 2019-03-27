@@ -32,15 +32,15 @@ public class UsersUtilTest {
 
     @Test
     public void updateUserDatabase() {
-        //Get users
+
+        //Gets users
         UserUtil uu = new UserUtil();
-        //uu.getUserData();
 
         List<User> userList = uu.getUserData();
         User ub4 = new User(userList.get(0));
         userList.get(0).setUsername("Nick");
 
-        //Update the user database
+        //Updates the user database
         uu.updateUserDatabase(userList);
         List<User> userList2 = uu.getUserData();
         User ub5 = userList2.get(0);
