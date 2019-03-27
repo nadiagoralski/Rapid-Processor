@@ -5,8 +5,10 @@ import org.junit.Before;
 import org.junit.Test;
 import rapidprocessor.ticketBatch.TicketBatch;
 import rapidprocessor.transaction.TicketTransaction;
+import rapidprocessor.transaction.Transaction;
 import rapidprocessor.util.TicketUtil;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,17 +34,19 @@ public class TicketUtilTest {
 
     @Test
     public void updateTicketBatch() {
-        // TicketBatch tu = new TicketBatch();
-        // List<ticketBatch> transactionList = new ArrayList<>();
+        //Get ticket batch data
+        TicketBatch tu = new TicketBatch();
+        List<TicketBatch> transactionList = new ArrayList<>();
 
-        // this.tickets = tu.getTicketBatchData();
+        //this.tickets = tu.getTicketBatchData();
+        //TicketTransaction transaction = new TicketTransaction(Transaction.TransactionType.BUY, tickets.get(0).eventTitle, tickets.get(0).getUserBalance(), new BigDecimal(990));
 
-        // TicketTransaction transaction = new TicketTransaction(TransactionType.BUY, tickets.get(0).eventTitle, tickets.get(0).getUserBalance(), new BigDecimal(990));
+        //update ticket batch
+        //transactionList.add(transaction);
+        //this.tickets = tu.updateUsersList(tickets, transactionList);
+        //assertEquals("1990.00", tickets.get(0).getPrice().toString());
 
-        // transactionList.add(transaction);
 
-        // // this.tickets = tu.updateUsersList(tickets, transactionList);
-        // assertEquals("1990.00", tickets.get(0).getPrice().toString());
     }
 
     @Test
