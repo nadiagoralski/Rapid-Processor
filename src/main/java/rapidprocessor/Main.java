@@ -1,5 +1,7 @@
 package rapidprocessor;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import rapidprocessor.ticketBatch.TicketBatch;
 import rapidprocessor.user.User;
 import rapidprocessor.util.TicketUtil;
@@ -13,6 +15,8 @@ import java.util.List;
  * Main processing class
  */
 public class Main {
+    // Logger
+    static Logger logger = LogManager.getLogger(Main.class.getName());
     // Global utils
     static TransactionUtil transactionUtil = null;
     static UserUtil userUtil = new UserUtil();
@@ -38,9 +42,7 @@ public class Main {
 
 
         } catch (Exception e) {
-            // TODO: Implement Logging class for messages
-            // TODO: handle error
-            e.printStackTrace();
+            logger.error(e);
         }
     }
 }
