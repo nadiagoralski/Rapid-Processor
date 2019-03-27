@@ -16,7 +16,6 @@ public class TransactionUtilTest {
     static TicketUtil ticketUtil = new TicketUtil();
 
     @Test
-    //Not working
     public void init() {
 
         List<TicketBatch> tickets = ticketUtil.getTicketBatchData();

@@ -14,7 +14,6 @@ public class UsersUtilTest {
     List<User> users = new ArrayList<>();
 
     @Test
-    //Not working
     public void getUserData() {
         UserUtil uu = new UserUtil();
 

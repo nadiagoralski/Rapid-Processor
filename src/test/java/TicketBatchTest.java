@@ -48,7 +48,6 @@ public class TicketBatchTest {
     }
 
     @Test
-    //Not working
     public void testSetQuantityAvailable() {
         String title = "title", name = "name";
 

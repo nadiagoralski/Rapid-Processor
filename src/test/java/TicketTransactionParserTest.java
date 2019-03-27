@@ -20,7 +20,6 @@ public class TicketTransactionParserTest {
     List<TicketBatch> tickets;
 
     @Before
-    //Not working
     public void setUp() throws Exception {
         line = "04 Test Event Title          userSS          005 110.00";
         ss = new User("userSS         ", "AA", 2000);
@@ -30,7 +29,6 @@ public class TicketTransactionParserTest {
     }
 
     @Test
-    //Not working
     public void testTicketTransactionParser() {
 
         String ticketTitle = "title", SellerName = "userSS         ";

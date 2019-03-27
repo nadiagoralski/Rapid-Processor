@@ -18,7 +18,6 @@ public class TicketUtilTest {
 
     }
     @Test
-    //Not working
     public void getTicketBatchData() {
         TicketUtil tu = new TicketUtil();
 
@@ -47,7 +46,6 @@ public class TicketUtilTest {
     }
 
     @Test
-    //Not working
     public void updateTicketBatchDatabase() {
 
         TicketBatch tu = new TicketBatch();
