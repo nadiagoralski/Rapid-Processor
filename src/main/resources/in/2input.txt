@@ -1,0 +1,24 @@
+login
+admin
+create
+testadmin
+AA
+12345
+logout
+login
+userFS
+buy
+Test Event Title2
+2
+userSS
+yes
+buy
+Test Event Title1
+2
+userSS
+yes
+sell
+Test Event Title3
+25.00
+100
+logout

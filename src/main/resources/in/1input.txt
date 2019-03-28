@@ -1,0 +1,17 @@
+login
+admin
+create
+seller1
+SS
+15000
+logout
+login
+userFS
+addcredit
+100
+buy
+Test Event Title1
+2
+userSS
+yes
+logout

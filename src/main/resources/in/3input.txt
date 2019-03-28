@@ -1,0 +1,11 @@
+login
+admin
+create
+fulluser
+FS
+150
+sell
+Test Event Title3
+25.00
+100
+logout
