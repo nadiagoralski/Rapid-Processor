@@ -1,0 +1,105 @@
+<html>
+<head>
+<title>TicketUtilTest.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #6897bb;}
+.s3 { color: #6a8759;}
+.s4 { color: #808080;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+TicketUtilTest.java</font>
+</center></td></tr></table>
+<pre><span class="s0">import static </span><span class="s1">org.junit.Assert.assertEquals</span><span class="s0">;</span>
+import static <span class="s1">org.junit.Assert.assertNotEquals</span><span class="s0">;</span>
+
+import <span class="s1">org.junit.Before</span><span class="s0">;</span>
+import <span class="s1">org.junit.Test</span><span class="s0">;</span>
+import <span class="s1">rapidprocessor.ticketBatch.TicketBatch</span><span class="s0">;</span>
+import <span class="s1">rapidprocessor.transaction.Transaction</span><span class="s0">;</span>
+import <span class="s1">rapidprocessor.util.TicketUtil</span><span class="s0">;</span>
+
+import <span class="s1">java.util.ArrayList</span><span class="s0">;</span>
+import <span class="s1">java.util.List</span><span class="s0">;</span>
+
+public class <span class="s1">TicketUtilTest {</span>
+    List&lt;TicketBatch&gt; tickets = <span class="s0">new </span><span class="s1">ArrayList&lt;TicketBatch&gt;()</span><span class="s0">;</span>
+
+    <span class="s1">@Before</span>
+    <span class="s0">public void </span><span class="s1">setUp() {</span>
+
+    }
+    @Test
+    <span class="s0">public void </span><span class="s1">getTicketBatchData() {</span>
+        TicketUtil tu = <span class="s0">new </span><span class="s1">TicketUtil()</span><span class="s0">;</span>
+
+        <span class="s1">tickets = tu.getTicketBatchData()</span><span class="s0">;</span>
+
+        <span class="s1">TicketBatch t = </span><span class="s0">this</span><span class="s1">.tickets.get(</span><span class="s2">0</span><span class="s1">)</span><span class="s0">;</span>
+
+        <span class="s1">assertEquals(</span><span class="s3">&quot;admin&quot;</span><span class="s0">, </span><span class="s1">t.getEventTitle())</span><span class="s0">;</span>
+        <span class="s1">assertEquals(</span><span class="s3">&quot;AA&quot;</span><span class="s0">, </span><span class="s1">t.getSellerName())</span><span class="s0">;</span>
+        <span class="s1">assertEquals(</span><span class="s3">&quot;1000.00&quot;</span><span class="s0">, </span><span class="s1">t.getPrice().toString())</span><span class="s0">;</span>
+    <span class="s1">}</span>
+
+    @Test
+    <span class="s0">public void </span><span class="s1">updateTicketBatch() {</span>
+        <span class="s4">//Get ticket batch data</span>
+        <span class="s1">TicketUtil tu = </span><span class="s0">new </span><span class="s1">TicketUtil()</span><span class="s0">;</span>
+        <span class="s1">List&lt;Transaction&gt; transactionList = </span><span class="s0">new </span><span class="s1">ArrayList&lt;&gt;()</span><span class="s0">;</span>
+
+        this<span class="s1">.tickets = tu.getTicketBatchData()</span><span class="s0">;</span>
+        <span class="s1">TicketBatch aTicket = tickets.get(</span><span class="s2">0</span><span class="s1">)</span><span class="s0">;</span>
+        int <span class="s1">totalBought = </span><span class="s2">5</span><span class="s0">;</span>
+
+        <span class="s1">TicketTransaction transaction = </span><span class="s0">new </span><span class="s1">TicketTransaction(Transaction.TransactionType.BUY</span><span class="s0">,</span>
+                <span class="s1">aTicket.getEventTitle()</span><span class="s0">,</span>
+                <span class="s1">aTicket.getSellerName()</span><span class="s0">,</span>
+                <span class="s1">totalBought</span><span class="s0">,</span>
+                new <span class="s1">BigDecimal(</span><span class="s2">990</span><span class="s1">))</span><span class="s0">;</span>
+
+        <span class="s4">// update ticket in list</span>
+        <span class="s1">tickets.get(</span><span class="s2">0</span><span class="s1">).setQuantityAvailable(aTicket.getQuantityAvailable() - totalBought)</span><span class="s0">;</span>
+
+        <span class="s4">//update ticket batch file</span>
+        <span class="s1">transactionList.add(transaction)</span><span class="s0">;</span>
+        <span class="s1">tu.updateTicketBatchDatabase(tickets)</span><span class="s0">;</span>
+
+        <span class="s4">// reread list</span>
+        <span class="s0">this</span><span class="s1">.tickets = tu.getTicketBatchData()</span><span class="s0">;</span>
+        <span class="s1">TicketBatch updatedTicket = tickets.get(</span><span class="s2">0</span><span class="s1">)</span><span class="s0">;</span>
+
+        <span class="s4">// check if the ticket quantity was updated</span>
+        <span class="s1">assertNotEquals(aTicket.getQuantityAvailable()</span><span class="s0">, </span><span class="s1">updatedTicket.getQuantityAvailable())</span><span class="s0">;</span>
+
+
+    <span class="s1">}</span>
+
+    @Test
+    <span class="s0">public void </span><span class="s1">updateTicketBatchDatabase() {</span>
+        <span class="s4">// Gets tickets</span>
+        <span class="s1">TicketUtil tu = </span><span class="s0">new </span><span class="s1">TicketUtil()</span><span class="s0">;</span>
+        <span class="s1">List&lt;TicketBatch&gt; ticketBatchList = tu.getTicketBatchData()</span><span class="s0">;</span>
+
+        <span class="s4">// get and edit ticket quantity</span>
+        <span class="s1">TicketBatch ticketBefore = </span><span class="s0">new </span><span class="s1">TicketBatch(ticketBatchList.get(</span><span class="s2">0</span><span class="s1">))</span><span class="s0">;</span>
+        <span class="s1">ticketBatchList.get(</span><span class="s2">0</span><span class="s1">).setQuantityAvailable(ticketBefore.getQuantityAvailable() - </span><span class="s2">1</span><span class="s1">)</span><span class="s0">;</span>
+
+        <span class="s4">// Updates the TicketBatch database</span>
+        <span class="s1">tu.updateTicketBatchDatabase(ticketBatchList)</span><span class="s0">;</span>
+        <span class="s1">ticketBatchList = tu.getTicketBatchData()</span><span class="s0">;</span>
+
+        <span class="s1">TicketBatch ticketAfter = ticketBatchList.get(</span><span class="s2">0</span><span class="s1">)</span><span class="s0">;</span>
+
+        <span class="s1">assertNotEquals(ticketBefore.getQuantityAvailable()</span><span class="s0">, </span><span class="s1">ticketAfter.getQuantityAvailable())</span><span class="s0">;</span>
+    <span class="s1">}</span>
+}
+</pre>
+</body>
+</html>

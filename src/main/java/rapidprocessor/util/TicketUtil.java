@@ -34,7 +34,7 @@ public class TicketUtil {
 		String fileName = properties.getProperty("available_tickets_filepath");
 		String line;
 
-		// Get and place all file contents in memory
+		//Get and place all file contents in memory
 		ClassLoader classLoader = getClass().getClassLoader();
 		File file = new File(classLoader.getResource(fileName).getFile());
 		List<TicketBatch> ticketBatch = new ArrayList<TicketBatch>();
