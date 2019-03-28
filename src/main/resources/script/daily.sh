@@ -3,17 +3,22 @@
 i = "$1";
 
 if ["$#" -ne 1]; then
-    echo "Please enter day number"; #Prompts to enter the day number
+    #Prompts to enter the day number
+    echo "Please enter day number";
 else
-	for j in (1..3); do #run 3 sessions
-	    ./app/pick-it-sales < ./app/AvailableUsers.txt ./app/CurrentUsers.txt ../in/$j""input.txt >> /dev/null; #to save output space
-	done #merges
-	cat transactions*.txt > ../out/$i""merge.txt; #saves the merged file
+     #run 3 sessions
+	for j in (1..3); do
+	    ./app/pick-it-sales < ./app/AvailableUsers.txt ./app/CurrentUsers.txt ../in/$j""input.txt >> /dev/null;
+	done
+	#save merged file
+	cat transactions*.txt > ../out/$i""merge.txt;
 	rm transactions*;
-	cat ../out/$i""merge.txt > transactions.db; #overwrites the transaction file
-	java Main #runs the backend
+	#overwrite transaction file
+	cat ../out/$i""merge.txt > transactions.db;
+	#run backend (Main)
+	java Main
 
-	#saves the tickets and accounts files
+	#save tickets and accounts files
 	cp ../file/users.db ../out/$1users.db;
 	cp ../file/tickets.db ../out/$1tickets.db;
 
