@@ -39,7 +39,7 @@ public class TicketUtilTest {
         List<Transaction> transactionList = new ArrayList<>();
 
         this.tickets = tu.getTicketBatchData();
-        TicketBatch aTicket = tickets.get(0);
+        TicketBatch aTicket = new TicketBatch(tickets.get(0));
         int totalBought = 5;
 
         TicketTransaction transaction = new TicketTransaction(Transaction.TransactionType.BUY,
@@ -61,8 +61,6 @@ public class TicketUtilTest {
 
         // check if the ticket quantity was updated
         assertNotEquals(aTicket.getQuantityAvailable(), updatedTicket.getQuantityAvailable());
-
-
     }
 
     @Test
