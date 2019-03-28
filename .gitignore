@@ -1,6 +1,5 @@
 .classpath
 .factorypath
-.iml
 .project
 
 .settings/**
@@ -8,6 +7,7 @@ target/**
 
 inc/*
 
+*.iml
 *.zip
 *.trn
 tests/results/**/
