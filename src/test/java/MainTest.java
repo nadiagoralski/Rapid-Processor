@@ -1,6 +1,4 @@
-import org.junit.Test;
 
-import rapidprocessor.user.User;
 
 public class MainTest {
 

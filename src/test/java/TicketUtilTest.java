@@ -4,11 +4,8 @@ import static org.junit.Assert.assertNotEquals;
 import org.junit.Before;
 import org.junit.Test;
 import rapidprocessor.ticketBatch.TicketBatch;
-import rapidprocessor.transaction.TicketTransaction;
-import rapidprocessor.transaction.Transaction;
 import rapidprocessor.util.TicketUtil;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
