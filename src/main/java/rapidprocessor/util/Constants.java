@@ -1,7 +1,5 @@
 package rapidprocessor.util;
 
-import rapidprocessor.transaction.Transaction;
-
 /**
  * Constants
  * Defines constant values used throughout the system

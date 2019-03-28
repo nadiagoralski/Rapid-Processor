@@ -5,8 +5,10 @@ import org.junit.Before;
 import org.junit.Test;
 import rapidprocessor.ticketBatch.TicketBatch;
 import rapidprocessor.transaction.TicketTransaction;
+import rapidprocessor.transaction.Transaction;
 import rapidprocessor.util.TicketUtil;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,6 +32,34 @@ public class TicketUtilTest {
         assertEquals("1000.00", t.getPrice().toString());
     }
 
+    @Test
+    public void updateTicketBatch() {
+        // Get ticket batch data
+        TicketUtil tu = new TicketUtil();
+        List<Transaction> transactionList = new ArrayList<>();
+
+        // List<TicketBatch> tickets = tu.getTicketBatchData();
+        // TicketBatch aTicket = tickets.get(0);
+        // int totalBought = 5;
+
+        // TicketTransaction transaction = new TicketTransaction(Transaction.TransactionType.BUY, aTicket.getEventTitle(),
+        //         aTicket.getSellerName(), totalBought, new BigDecimal(990));
+
+        // update ticket in list
+        // tickets.get(0).setQuantityAvailable(aTicket.getQuantityAvailable() - totalBought);
+
+        // update ticket batch file
+        // transactionList.add(transaction);
+        // tu.updateTicketBatchDatabase(tickets);
+
+        // reread list
+        // tickets = tu.getTicketBatchData();
+        // TicketBatch updatedTicket = tickets.get(0);
+
+        // check if the ticket quantity was updated
+        // assertNotEquals(aTicket.getQuantityAvailable(), updatedTicket.getQuantityAvailable());
+
+    }
     
     @Test
     public void updateTicketBatchDatabase() {

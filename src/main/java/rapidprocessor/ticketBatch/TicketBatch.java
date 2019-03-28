@@ -157,7 +157,7 @@ public class TicketBatch {
         // Pad the string values with spaces and numeric values with 0's
         String eventTitle = StringUtils.rightPad(this.eventTitle, 25);
         String sellerName = StringUtils.rightPad(this.sellerName, 15);
-        String quantityAvailable = StringUtils.leftPad(this.quantityAvailable.toString(), 9, "0");
+        String quantityAvailable = StringUtils.leftPad(this.quantityAvailable.toString(), 3, "0");
         String price = StringUtils.leftPad(this.price.setScale(2, BigDecimal.ROUND_HALF_UP).toString(), 6, "0");
 
 

@@ -46,7 +46,7 @@ public class UserUtil {
 			fr = new FileReader(file);
 			br = new BufferedReader(fr);
 
-			while ((line = br.readLine()) != null) {
+			while ((line = br.readLine()) != null && !br.readLine().equals(Constants.END_OF_FILE_LINE)) {
 				String username = StringUtils.trimToEmpty(line.substring(0, Constants.MAX_USERNAME_LENGTH));
 				String userType = StringUtils.trimToEmpty(line.substring(16, 18));
 				BigDecimal userBalance = new BigDecimal(line.substring(19, line.length()).trim());

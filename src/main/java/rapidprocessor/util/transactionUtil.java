@@ -166,7 +166,7 @@ public class TransactionUtil {
 			br = new BufferedReader(fr);
 
 			// Read each line of the file and create the Transaction objects
-			while ((line = br.readLine()) != null) {
+			while ((line = br.readLine()) != null && !br.readLine().equals(Constants.END_OF_FILE_LINE)) {
 				transactionParser = getParser(Transaction.TransactionType.fromCode(line.substring(0, 2)));
 
 

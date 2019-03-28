@@ -25,7 +25,10 @@ public class UsersUtilTest {
     public void getUserData() {
 
         List<User> users = uu.getUserData();
-        User u = users.get(0);
+        User u = new User(users.get(0));
+
+        //this.users = uu.getUserData();
+        //User u = this.users.get(0);
 
         
         
