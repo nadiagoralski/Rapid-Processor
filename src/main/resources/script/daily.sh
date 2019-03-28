@@ -14,8 +14,8 @@ else
 	java Main #runs the backend
 
 	#saves the tickets and accounts files
-	cp users.db ../out/$1users.db;
-	cp tickets.db ../out/$1tickets.db;
+	cp ./file/users.db ../out/$1users.db;
+	cp ./file/tickets.db ../out/$1tickets.db;
 
 	echo "Day: "$i" complete";
 
