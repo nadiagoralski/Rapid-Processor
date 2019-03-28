@@ -64,7 +64,7 @@ public class TransactionUtil {
 
 		// initialize transaction index and transaction to process sub-list
         int transactionIndex = 0;
-		List<Transaction> transactionsToProcess = new ArrayList<>();
+		List<Transaction> transactionsToProcess = transactions;
 
 		// loop through each session
 		while (transactionIndex <= transactions.size()) {
