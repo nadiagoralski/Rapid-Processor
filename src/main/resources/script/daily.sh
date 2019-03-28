@@ -8,19 +8,19 @@ if ["$#" -ne 1]; then
 else
      #run 3 sessions
 	for j in (1..3); do
-	    ./app/pick-it-sales < ./app/AvailableUsers.txt ./app/CurrentUsers.txt ../in/$j""input.txt >> /dev/null;
+	    ./app/pick-it-sales < ./app/AvailableUsers.txt ./app/CurrentUsers.txt ../in/$jinput.txt >> /dev/null;
 	done
 	#save merged file
-	cat transactions*.txt > ../out/$i""merge.txt;
+	cat transactions*.txt > ../out/$imerge.txt;
 	rm transactions*;
 	#overwrite transaction file
-	cat ../out/$i""merge.txt > transactions.db;
+	cat ../out/$imerge.txt > ../out/transactions.db;
 	#run backend (Main)
 	java Main
 
 	#save tickets and accounts files
-	cp ../file/users.db ../out/$1users.db;
-	cp ../file/tickets.db ../out/$1tickets.db;
+	cp ../file/users.db ../out/$iusers.db;
+	cp ../file/tickets.db ../out/$itickets.db;
 
 	echo "Day: "$i" complete";
 
