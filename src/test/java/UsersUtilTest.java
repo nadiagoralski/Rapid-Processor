@@ -1,9 +1,11 @@
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import rapidprocessor.user.User;
@@ -12,6 +14,16 @@ import rapidprocessor.util.UserUtil;
 public class UsersUtilTest {
 
     List<User> users = new ArrayList<>();
+
+    BigDecimal testUserBalance;
+    UserUtil uu = new UserUtil();
+
+    @Before
+    public void setUp() {
+        List<User> users = uu.getUserData();
+
+        testUserBalance = users.get(0).getUserBalance();
+    }
 
     @Test
     public void getUserData() {
@@ -30,20 +42,20 @@ public class UsersUtilTest {
 
     @Test
     public void updateUserDatabase() {
-
         //Gets users
-        UserUtil uu = new UserUtil();
 
         List<User> userList = uu.getUserData();
-        User ub4 = new User(userList.get(0));
-        userList.get(0).setUsername("Nick");
+        User userBefore = new User(userList.get(0));
+
+        testUserBalance = userList.get(0).getUserBalance();
+
+        userList.get(0).setUserBalance(testUserBalance.subtract(BigDecimal.ONE));
 
         //Updates the user database
         uu.updateUserDatabase(userList);
         List<User> userList2 = uu.getUserData();
-        User ub5 = userList2.get(0);
+        User userAfter = userList2.get(0);
 
-        assertNotEquals(ub4.getUsername(), ub5.getUsername());
-
+        assertNotEquals(userBefore.getUserBalance(), userAfter.getUserBalance());
     }
 }

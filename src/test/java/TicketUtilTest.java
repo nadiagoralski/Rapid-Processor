@@ -67,12 +67,23 @@ public class TicketUtilTest {
 
     @Test
     public void updateTicketBatchDatabase() {
+        // Gets tickets
+        TicketUtil tu = new TicketUtil();
+        List<TicketBatch> TicketBatchList = tu.getTicketBatchData();
 
-        TicketBatch tu = new TicketBatch();
-        List<TicketTransaction> transactionList = new ArrayList<>();
+        Integer ticketCount = TicketBatchList.get(0).getQuantityAvailable();
 
-        //tu.updateTicketBatchDatabase();
+        TicketBatchList.get(0).setQuantityAvailable(ticketCount - 1);
 
-        assertNotEquals("","");
+        // edit ticket
+        TicketBatch ticketBefore = new TicketBatch(TicketBatchList.get(0));
+
+        // Updates the TicketBatch database
+        tu.updateTicketBatchDatabase(TicketBatchList);
+        List<TicketBatch> TicketBatchList2 = tu.getTicketBatchData();
+
+        TicketBatch ticketAfter = TicketBatchList2.get(0);
+
+        assertNotEquals(ticketBefore.getEventTitle(), ticketAfter.getEventTitle());
     }
 }

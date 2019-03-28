@@ -65,6 +65,13 @@ public class TicketBatch {
         this.price = price;
     }
 
+    public TicketBatch(TicketBatch ticketBatch) {
+        this.eventTitle = ticketBatch.getEventTitle();
+        this.sellerName = ticketBatch.getSellerName();
+        this.quantityAvailable = ticketBatch.getQuantityAvailable();
+        this.price = ticketBatch.getPrice();
+    }
+
     /**
      * Getter for event title
      * @return event title
